@@ -58,7 +58,12 @@ export default class App extends React.Component {
       return (
         //provider entrega acceso a store a todos los componentes
         <Provider store={store}>
+<<<<<<< HEAD
+          {//console.log(this.getMyObject() )
+          }
+=======
 
+>>>>>>> e352f42dcb67965085ad2896bf22a325045367de
         <GalioProvider theme={nowTheme}>
           <NavigationContainer>
             <Drawer.Navigator>
@@ -98,6 +103,9 @@ _handleFinishLoading = () => {
   }
 };
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> e352f42dcb67965085ad2896bf22a325045367de
 
 }

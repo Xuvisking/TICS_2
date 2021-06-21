@@ -9,11 +9,16 @@ const router = Router();
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { crearVecino, getallvecinos, deleteVecino, actualizarVecino, actualizarPassword } = require('../controllers/vecino');
+<<<<<<< HEAD
+const { crearVecino, getallvecinos, getUnVecino, deleteVecino, actualizarVecino, actualizarPassword } = require('../controllers/vecino');
+=======
+const { crearVecino, getallvecinos, deleteVecino, actualizarVecino, actualizarPassword,getInfoVecino} = require('../controllers/vecino');
+>>>>>>> 9d262a2131743cedbb9e4cfe1559d97fa0be2c91
 
 router.use(validarJWT);
 
 router.get('/getallvecinos', getallvecinos);
+router.get('/getInfoVecino/:id_veci', getInfoVecino);
 
 router.post('/crearVecino',
     [
@@ -21,6 +26,8 @@ router.post('/crearVecino',
     ],
     crearVecino
 );
+
+router.get('/getUnVecino', getUnVecino);
 
 router.delete('/deleteVecino/:id_veci', deleteVecino);
 

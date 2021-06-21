@@ -85,6 +85,46 @@ const getallvecinos = async (req, res = response) => {
     }
 };
 
+<<<<<<< HEAD
+const getUnVecino = async (req, res = response) => {
+    console.log('getUnVecino');
+    try {
+        // Creamos la conexion a la BDD
+        const pool = await dbConecction();
+        // Extraemos ID del vecino solicitante
+        const { id } = req;
+        const data = await pool.query('SELECT id_veci, direccion, name_contact, numb_contact, name_contact2, numb_contact2 FROM vecino WHERE id_veci = ($1)', [id]);
+        if (!data.rowCount) {
+            return res.status(200).json({
+                ok: true,
+                msg: 'vecino no encontrado'
+            });
+        }
+=======
+const getInfoVecino = async (req, res = response) => {
+    try {
+        // Creamos la conexion a la BDD
+        const pool = await dbConecction();
+        const { id_veci} = req.params;
+        const data = await pool.query('SELECT id_veci, direccion, nombre_vecino, telefono_vecino, name_contact, numb_contact, name_contact2, numb_contact2 FROM vecino WHERE id_veci= ($1)', [id_veci]);
+>>>>>>> 9d262a2131743cedbb9e4cfe1559d97fa0be2c91
+        return res.status(200).json({
+            ok: true,
+            data: data.rows
+        });
+<<<<<<< HEAD
+    } catch {
+=======
+    } catch (error) {
+>>>>>>> 9d262a2131743cedbb9e4cfe1559d97fa0be2c91
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+};
+
 const deleteVecino = async (req, res = response) => {
     const { id_veci } = req.params;
     try {
@@ -161,6 +201,8 @@ module.exports = {
     crearVecino,
     getallvecinos,
     actualizarVecino,
+    getUnVecino,
     deleteVecino,
-    actualizarPassword
+    actualizarPassword,
+    getInfoVecino
 };
