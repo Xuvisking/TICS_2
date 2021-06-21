@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React,{ useState}  from 'react';
+import React,{ useState, useEffect }  from 'react';
 import { StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
@@ -39,7 +39,9 @@ function cacheImages(images) {
     }
   });
 }
+
 export default class App extends React.Component {
+
   state = {
     isLoadingComplete: false,
     fontLoaded: false
@@ -98,6 +100,5 @@ _handleFinishLoading = () => {
     this.setState({ isLoadingComplete: true });
   }
 };
-
 
 }

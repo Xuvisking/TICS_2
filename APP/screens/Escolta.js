@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   ImageBackground,
@@ -7,10 +7,16 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   TextComponent,
-  Alert
+  Alert,
+  Platform,
+  SafeAreaView, 
+  ScrollView
 } from 'react-native';
 import { Block, Checkbox, Text, Button as GaButton, theme } from 'galio-framework';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
 
 import { Button, Icon, Input } from '../components';
 import { Images, nowTheme } from '../constants';
@@ -40,7 +46,7 @@ class Escolta extends React.Component {
   {
     super(props);
     this.state = {
-      Id:'',
+      token:'',
       Mod:[],
       Fecha:'',
       Hora:'',
@@ -48,26 +54,74 @@ class Escolta extends React.Component {
     }
   }
 
+  Estadoescolta = async () => {
+    try{
+      const token = await AsyncStorage.getItem('token');
+      //consulta login vecino
+      const response= await fetch('http://52.188.69.248:4000/api/escolta/getConfirmacionApp',{
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'omit',
+        referrerPolicy: 'no-referrer',
+        headers: {
+          'x-token': token
+        }
+      });
+  
+      const res= await response.json();
+      console.log('Respuesta del servidor:',res)
+      if (res.ok === true) {
+        Alert.alert(
+          "Estado de la escolta",
+          res.data.estado_esc,
+          [
+            { text: "Ok", onPress: () => {
+                console.log("OK Pressed");
+              }
+            }
+          ],
+          { cancelable: false }
+        );
+      } else {
+        Alert.alert(
+          "Estado de la escolta",
+          "La alarma aun no ha sido solicitada",
+          [
+            { text: "Ok", onPress: () => {
+                console.log("OK Pressed");
+              }
+            }
+          ],
+          { cancelable: false }
+        );
+      }
+      
+    }catch (error){
+      console.log(error);
+    }
+    //enviar todos los datos por pos ya que es un login 
+  }
+
   ActivarEscolta = async () =>{
     try{
       //capatar los input
-      const Id = await AsyncStorage.getItem('usuario');
-      console.log(Id)
+      const token = await AsyncStorage.getItem('token');
       const{Mod} = this.state;
       const{Fecha} = this.state;
       const{Hora} = this.state;
       const{Dir} = this.state;
-      console.log(Id,' // ',Fecha,' // ',Hora, ' // ',Dir, '//', Mod.label);
+      console.log(token,' // ',Fecha,' // ',Hora, ' // ',Dir, '//', Mod.label);
   
       //consulta login vecino
-      const response= await fetch('http://52.188.69.248:4000/api/auth/loginVecino',{
+      const response= await fetch('http://52.188.69.248:4000/api/escolta/crearSolicitudEscolta',{
         method:'POST',
         //headers para contenidos de lo mensje
         headers:{
+          'x-token': token,
           'Accept':'application/json',
           'Content-type':'application/json'
         },
-        body:JSON.stringify({id:Id,modalidad:Mod.label,fecha:Fecha,hora:Hora,dir:Dir})
+        body:JSON.stringify({modalidad:Mod.label,fecha:Fecha,hora:Hora,ref_direc:Dir})
       });
   
       const res= await response.json();
@@ -105,6 +159,8 @@ class Escolta extends React.Component {
 
   render() {
     return (
+      <SafeAreaView >
+      <ScrollView >
       <DismissKeyboard>
         <Block flex middle>
           <ImageBackground
@@ -247,6 +303,18 @@ class Escolta extends React.Component {
                             </Text>
                           </Button>
                         </Block>
+                        <Block center>
+                          <Button color="primary" round style={styles.createButton}>
+                            <Text
+                              style={{ fontFamily: 'montserrat-bold' }}
+                              size={14}
+                              onPress={this.Estadoescolta}
+                              color={nowTheme.COLORS.WHITE}
+                            >
+                              Ver estado escolta
+                            </Text>
+                          </Button>
+                        </Block>
                       </Block>
                     </Block>
                   </Block>
@@ -256,6 +324,8 @@ class Escolta extends React.Component {
           </ImageBackground>
         </Block>
       </DismissKeyboard>
+      </ScrollView>
+    </SafeAreaView>
     );
   }
 }
@@ -274,7 +344,7 @@ const styles = StyleSheet.create({
   registerContainer: {
     marginTop: 55,
     width: width * 0.9,
-    height: height < 812 ? height * 0.8 : height * 0.8,
+    height: 800,
     backgroundColor: nowTheme.COLORS.WHITE,
     borderRadius: 4,
     shadowColor: nowTheme.COLORS.BLACK,
