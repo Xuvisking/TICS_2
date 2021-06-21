@@ -201,32 +201,39 @@ class Escolta extends React.Component {
                               }
                             />
                           </Block>
-                          <Text
-                                style={{
-                                    fontFamily: 'montserrat-regular',
-                                    textAlign: 'left'
-                                  }}
-                                  color="#333"
-                                  size={15}
-                            >
-                                Dirección
-                            </Text>
-                          <Block width={width * 0.8} style={{ marginBottom: 5 }}>
-                            <Input
-                              placeholder="Dirección"
-                              style={styles.inputs}
-                              onChangeText={Dir => this.setState({Dir})}
-                              iconContent={
-                                <Icon
-                                  size={16}
-                                  color="#ADB5BD"
-                                  name="world2x"
-                                  family="NowExtra"
-                                  style={styles.inputIcons}
+                          { this.state.Mod.label === "Llegada" ? ( 
+                            <Block>
+                              <Text
+                                    style={{
+                                        fontFamily: 'montserrat-regular',
+                                        textAlign: 'left'
+                                      }}
+                                      color="#333"
+                                      size={15}
+                                >
+                                    Dirección de referencia de llegada
+                                </Text>  
+                              
+                              <Block width={width * 0.8} style={{ marginBottom: 5 }}>
+                                <Input
+                                  placeholder="Dirección"
+                                  style={styles.inputs}
+                                  onChangeText={Dir => this.setState({Dir})}
+                                  iconContent={
+                                    <Icon
+                                      size={16}
+                                      color="#ADB5BD"
+                                      name="world2x"
+                                      family="NowExtra"
+                                      style={styles.inputIcons}
+                                    />
+                                  }
                                 />
-                              }
-                            />
-                          </Block>
+                              </Block>
+                            </Block>  
+                         ) : (
+                           <Text></Text>
+                         ) }
                         </Block>
                         <Block center>
                           <Button color="primary" round style={styles.createButton}>

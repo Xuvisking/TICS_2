@@ -6,10 +6,11 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   Keyboard,
-  TextComponent
+  TextComponent,
+  Alert
 } from 'react-native';
 import { Block, Checkbox, Text, Button as GaButton, theme } from 'galio-framework';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Icon, Input } from '../components';
 import { Images, nowTheme } from '../constants';
 
@@ -20,6 +21,93 @@ const DismissKeyboard = ({ children }) => (
 );
 
 class PassChange extends React.Component {
+
+  constructor(props)
+  {
+    super(props);
+    this.state = {
+      PassOld: "12345",
+      PassNew:'',
+      PassNew2:''
+    }
+  }
+
+  IfSame = async () =>{
+    if (this.state.PassNew === this.state.PassNew2) {
+      console.log("las contraseñas son iguales")
+      this.Login()
+    } else {
+      Alert.alert(
+        "Contraseñas incorrectas",
+        "Vuelva a ingresar nuevamente las contraseñas",
+        [
+          { text: "Ok", onPress: () => {
+              console.log("OK Pressed");
+            }
+          }
+        ],
+        { cancelable: false }
+      );
+    }
+  }
+
+  Login = async () =>{
+    try{
+      //capatar los input
+      const Token = await AsyncStorage.getItem('token');
+      const{PassOld} = this.state;
+      const{PassNew} = this.state;
+      const{PassNew2} = this.state;
+      console.log(Token,' // ',PassOld,' // ',PassNew,' // ',PassNew2);
+
+      //consulta login vecino
+      const response= await fetch('http://52.188.69.248:4000/api/vecino/actualizarPassword',{
+        method:'POST',
+        //headers para contenidos de lo mensje
+        headers:{
+          'x-token': Token,
+          'Accept':'application/json',
+          'Content-type':'application/json'
+        },
+        body:JSON.stringify({antiguaPassword:PassOld,nuevaPassword:PassNew,confirmarPassword:PassNew2})
+      });
+
+      const user= await response.json();
+      console.log('respuesta servidor',user)
+      if (user.ok === true) {
+        Alert.alert(
+          "¡Cambio de contraseña Exitoso!",
+          "Vuelva a iniciar sesión",
+          [
+            { text: "Ok", onPress: () => {
+                console.log("OK Pressed");
+                this.props.navigation.navigate('Login');
+              }
+            }
+          ],
+          { cancelable: false }
+        );
+      } else {
+        Alert.alert(
+          "Ocurrio un error inesperado",
+          "Volviendo al inicio",
+          [
+            { text: "Ok", onPress: () => {
+                console.log("OK Pressed");
+                this.props.navigation.navigate('Login');
+              }
+            }
+          ],
+          { cancelable: false }
+        );
+      }
+      
+    }catch (error){
+      console.log(error);
+    }
+    //enviar todos los datos por pos ya que es un login 
+  }
+
   render() {
     return (
       <DismissKeyboard>
@@ -32,7 +120,7 @@ class PassChange extends React.Component {
             <Block flex middle>
               <Block style={styles.registerContainer}>
                 <Block flex space="evenly">
-                  <Block flex={0.4} middle style={styles.socialConnect}>
+                  <Block flex={0.3} middle style={styles.socialConnect}>
                     <Block flex={0.5} middle>
                       <Text
                         style={{
@@ -40,9 +128,23 @@ class PassChange extends React.Component {
                           textAlign: 'center'
                         }}
                         color="#333"
-                        size={24}
+                        size={27}
                       >
                         Cambio de Contraseña
+                      </Text>
+                    </Block>
+                  </Block>
+                  <Block flex={0.3} middle style={styles.socialConnect}>
+                    <Block flex={0.5} middle>
+                      <Text
+                        style={{
+                          fontFamily: 'montserrat-regular',
+                          textAlign: 'center'
+                        }}
+                        color="#898989"
+                        size={20}
+                      >
+                        Cambie la Contraseña que no sea identica a la anterior
                       </Text>
                     </Block>
                   </Block>
@@ -58,37 +160,12 @@ class PassChange extends React.Component {
                                   color="#333"
                                   size={15}
                             >
-                                Contraseña actual
-                            </Text>
-                          <Block width={width * 0.8} style={{ marginBottom: 5 }}>
-                            <Input
-                              placeholder="Contraseña actual"
-                              secureTextEntry={true}
-                              style={styles.inputs}
-                              iconContent={
-                                <Icon
-                                  size={16}
-                                  color="#ADB5BD"
-                                  name="key-252x"
-                                  family="NowExtra"
-                                  style={styles.inputIcons}
-                                />
-                              }
-                            />
-                          </Block>
-                            <Text
-                                style={{
-                                    fontFamily: 'montserrat-regular',
-                                    textAlign: 'left'
-                                  }}
-                                  color="#333"
-                                  size={15}
-                            >
                                 Contraseña Nueva
                             </Text>
                           <Block width={width * 0.8} style={{ marginBottom: 5 }}>
                             <Input
                               placeholder="Contraseña Nueva"
+                              onChangeText={PassNew => this.setState({PassNew})}
                               secureTextEntry={true}
                               style={styles.inputs}
                               iconContent={
@@ -115,6 +192,7 @@ class PassChange extends React.Component {
                           <Block width={width * 0.8} style={{ marginBottom: 5 }}>
                             <Input
                               placeholder="Contraseña Nueva"
+                              onChangeText={PassNew2 => this.setState({PassNew2})}
                               secureTextEntry={true}
                               style={styles.inputs}
                               iconContent={
@@ -130,7 +208,12 @@ class PassChange extends React.Component {
                           </Block>
                         </Block>
                         <Block center>
-                          <Button color="primary" round style={styles.createButton}>
+                          <Button 
+                          color="primary" 
+                          round 
+                          style={styles.createButton}
+                          onPress={this.IfSame}
+                          >
                             <Text
                               style={{ fontFamily: 'montserrat-bold' }}
                               size={14}

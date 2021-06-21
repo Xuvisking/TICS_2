@@ -16,6 +16,7 @@ import { addUsuario } from './../AlarmaAction';
 
 import { Button, Icon, Input } from '../components';
 import { Images, nowTheme } from '../constants';
+import { and } from 'react-native-reanimated';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -50,13 +51,16 @@ class Login extends React.Component {
         body:JSON.stringify({id:usuario,password:clave})
       });
 
-       const user= await response.json();
+      const user= await response.json();
       console.log('respues servidor',user)
       await AsyncStorage.setItem('usuario', user.id);
       await AsyncStorage.setItem('token', user.token);
-      //const value = await AsyncStorage.getItem('usuario')
-      //console.log(value)
-      this.props.navigation.navigate('Inicio');
+
+      if (clave==="12345" & user.ok ===true ) {
+        this.props.navigation.navigate('PassChange');
+      } else {
+        this.props.navigation.navigate('Inicio');
+      }
       
     }catch (error){
       console.log(error);

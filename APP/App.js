@@ -67,6 +67,7 @@ export default class App extends React.Component {
                   <Drawer.Screen name="Inicio" component={Inicio} />
                   <Drawer.Screen name="Escolta" component={Escolta}/>
                   <Drawer.Screen name="Contactos" component={Contactos}/>
+                  <Drawer.Screen name="PassChange" component={PassChange}/>
             </Drawer.Navigator>
           </NavigationContainer>
         </GalioProvider>
