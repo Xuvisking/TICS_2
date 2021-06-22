@@ -1,0 +1,2 @@
+en helpers jwt.js que hace
+lo mismo linea 81 auth.js en controllers y linea 96
