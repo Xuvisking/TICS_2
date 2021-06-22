@@ -1,9 +1,10 @@
 import 'react-native-gesture-handler';
-import React,{ useState, useEffect }  from 'react';
-import { StyleSheet } from 'react-native';
+import React,{ useEffect, useState}  from 'react';
+import { StyleSheet,Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
 import { Block, GalioProvider } from 'galio-framework';
 import AppLoading from 'expo-app-loading';
 
@@ -20,6 +21,7 @@ import PassChange from './screens/PassChange';
 import Inicio from './screens/Inicio';
 import Escolta from './screens/Escolta';
 import Contactos from './screens/Contactos';
+import ActualizarContact from './screens/ActualizarContactos';
 
 import * as Font from 'expo-font';
 import { Images, articles, nowTheme } from './constants';
@@ -29,8 +31,12 @@ import { addUsuario } from './AlarmaAction';
 //constantes
 const Drawer = createDrawerNavigator();
 const store = createStore(alarmaReducer);
+const RootStack = createStackNavigator();
+const ContactoStack = createStackNavigator();
+const LoginStack = createStackNavigator();
 
 function cacheImages(images) {
+
   return images.map(image => {
     if (typeof image === 'string') {
       return Image.prefetch(image);
@@ -39,66 +45,71 @@ function cacheImages(images) {
     }
   });
 }
-
-export default class App extends React.Component {
-
-  state = {
-    isLoadingComplete: false,
-    fontLoaded: false
-  };
-
-  render() {
-    if (!this.state.isLoadingComplete) {
+function LoginStackScreen({ navigation }) {
       return (
-        <AppLoading
-          startAsync={this._loadResourcesAsync}
-          onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}
-        />
+        <LoginStack.Navigator >
+          <LoginStack.Screen name="Intro" component={Intro} options={{ headerShown: false }}/>
+          <LoginStack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+          <LoginStack.Screen name="PassChange" component={PassChange} options={{ headerShown: false }}/>
+          <LoginStack.Screen name="Inicio" component={HomeDrawer} options={{ headerShown: false }}/>
+        </LoginStack.Navigator >
       );
-    } else {
+}
+function Contact({ navigation }) {
+  return (
+    <ContactoStack.Navigator >
+      <ContactoStack.Screen name="Contactos" component={Contactos} options={{ headerShown: false }}/>
+      <ContactoStack.Screen name="ActualizarContactos" component={ActualizarContact} options={{ headerShown: false }}/>
+    </ContactoStack.Navigator >
+  );
+}
+function HomeDrawer({ navigation }) {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name="Inicio" component={Inicio} />
+      <Drawer.Screen name="Escolta" component={Escolta}/>
+      <Drawer.Screen name="Contacto" component={Contact}/>
+      {//crer un componente para cerrar sesion y de cambio de contrasena 
+      }
+    </Drawer.Navigator>
+  );
+}
+export default function App({ navigation }){  
+
+  const [isSignedIn, setIsSignedIn] = useState('Deslogeado');
+
+  useEffect(()=>{
+      isLogin()
+  },[]);
+    //funciones para rutas 
+    const isLogin = async () =>{
+      try{
+        const token = await AsyncStorage.getItem('token');
+        if (token){
+          setIsSignedIn('Logeado');
+          console.log('Tenemos token puedes entrar :',isSignedIn)
+        }
+      }catch (error){
+        console.log(error);
+      }
+    }
       return (
         //provider entrega acceso a store a todos los componentes
         <Provider store={store}>
-          {//console.log(this.getMyObject() )
-          }
         <GalioProvider theme={nowTheme}>
-          <NavigationContainer>
-            <Drawer.Navigator>
-                  <Drawer.Screen name="Intro" component={Intro}/>
-                  <Drawer.Screen name="Login" component={Login}/>
-                  <Drawer.Screen name="Inicio" component={Inicio} />
-                  <Drawer.Screen name="Escolta" component={Escolta}/>
-                  <Drawer.Screen name="Contactos" component={Contactos}/>
-                  <Drawer.Screen name="PassChange" component={PassChange}/>
-            </Drawer.Navigator>
+          <NavigationContainer > 
+            <RootStack.Navigator>
+            {
+              isSignedIn == 'Logeado' ? (
+                <RootStack.Screen name="Home" component={HomeDrawer} options={{ headerShown: false }}/>
+              ) : (
+                <RootStack.Screen name="Login" component={LoginStackScreen} options={{ headerShown: false }}/>
+              )
+           }
+            </RootStack.Navigator>
           </NavigationContainer>
         </GalioProvider>
         </Provider>
       );
-    }
-  }
-
-_loadResourcesAsync = async () => {
-  await Font.loadAsync({
-    'montserrat-regular': require('./assets/font/Montserrat-Regular.ttf'),
-    'montserrat-bold': require('./assets/font/Montserrat-Bold.ttf')
-  });
-
-  this.setState({ fontLoaded: true });
-  return Promise.all([...cacheImages(assetImages)]);
-};
-
-_handleLoadingError = error => {
-  // In this case, you might want to report the error to your error
-  // reporting service, for example Sentry
-  console.warn(error);
-};
-
-_handleFinishLoading = () => {
-  if (this.state.fontLoaded) {
-    this.setState({ isLoadingComplete: true });
-  }
-};
-
+  
 }

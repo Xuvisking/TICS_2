@@ -85,7 +85,7 @@ class Escolta extends React.Component {
       } else {
         Alert.alert(
           "Estado de la escolta",
-          "La alarma aun no ha sido solicitada",
+          "La escolta aun no ha sido solicitada",
           [
             { text: "Ok", onPress: () => {
                 console.log("OK Pressed");

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {
+import {Alert,
   StyleSheet,
   ImageBackground,
   Dimensions,
@@ -13,7 +13,7 @@ import { Block, Checkbox, Text, Button as GaButton, theme } from 'galio-framewor
 import { connect } from 'react-redux';
 import { addUsuario } from './../AlarmaAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Button, Icon, Input } from '../components';
+import { Button, Icon, Input,} from '../components';
 import { Images, nowTheme } from '../constants';
 import { and } from 'react-native-reanimated';
 
@@ -51,15 +51,21 @@ class Login extends React.Component {
       });
 
       const user= await response.json();
-      console.log('respues servidor',user)
-      await AsyncStorage.setItem('usuario', user.id);
-      await AsyncStorage.setItem('token', user.token);
+      
 
-      if (clave==="12345" & user.ok ===true ) {
+      if(user.msg){
+        Alert.alert(user.msg);
+      }else{
+        console.log('respues servidor',user)
+        await AsyncStorage.setItem('usuario', user.id);
+        await AsyncStorage.setItem('token', user.token);
+        if (clave==="12345" & user.ok ===true ) {
         this.props.navigation.navigate('PassChange');
-      } else {
+        } else {
         this.props.navigation.navigate('Inicio');
+        }
       }
+      
       
     }catch (error){
       console.log(error);

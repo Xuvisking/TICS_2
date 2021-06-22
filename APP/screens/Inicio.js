@@ -1,36 +1,59 @@
 import React, { useState, useEffect, Component } from 'react';
 import { render } from 'react-dom';
 import {View, Text, StyleSheet, TouchableOpacity,Alert} from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Input,Card,Button,Badge,Header} from 'react-native-elements';
 //redux
 import { connect } from 'react-redux';
 
-class Inicio extends Component{
+function Inicio(){
+  const [Estado, setEstado] = useState('Inactivo');
+  const [Alarma, setAlarma] = useState('');
+  const [AlarmaActiva, setAlarmaActiva] = useState('true');
 
-  constructor(props){
-    super(props);
-    
-    this.state = {
-      Estado:"",
-      Mensaje:""
-    };
-    //para no perder contexto del componente
-    this.handlefortuna = this.handlefortuna.bind(this);
-
+  //consulta el estado de la alarma cada 2 segundos
+  useEffect(() => {
+      setInterval(() => {
+      EstadoAlarma();
+      }, 2000);
+  }, []);
+  
+  //Actualizar estado de alarma 
+  const EstadoAlarma = async () =>{
+    try{
+      //terminada - activa - confrimada
+      if(AlarmaActiva=='true'){
+        console.log('Estado alarma:',Alarma)
+        //capatar los input
+        const token = await AsyncStorage.getItem('token');
+        const response= await fetch(`http://52.188.69.248:4000/api/alarma/getConfirmacionApp`,{
+          method:'post',
+          //headers para contenidos de lo mensaje
+          headers:{
+            'x-token':token,
+            'Accept': 'application/json, text/plain, *',
+            'Content-type':'application/json'
+          },
+          body:JSON.stringify({id_alarm:Alarma})
+        });
+        const recibido= await response.json();
+        if(recibido.data?.estado){
+          setEstado(recibido.data?.estado);
+        }
+        if(recibido.data?.estado == 'terminada'){
+          setEstado(recibido.data.estado);
+        }
+      }
+      
+    }catch (error){
+      console.log(error);
+    }
   }
-  //funcion que modifica el valor del alerta
-  handlefortuna(valor){
-
-        const {Estado,Mensaje} = this.state;
-        this.setState({Estado:valor});
-        this.setState({Mensaje:'Hemos recibido su alarma, estamos enviado ayuda...'});
-  }
-
-
-  postAlarma = async () =>{
+  //crear alarma
+  const postAlarma = async () =>{
     try{
       //capatar los input
-      const usuario = this.props.alarma.usuario;
+      const usuario = await AsyncStorage.getItem('token');
 
       //crear alarma
       const response= await fetch('http://52.188.69.248:4000/api/alarma/crearAlarma',{
@@ -43,19 +66,28 @@ class Inicio extends Component{
         }
       });
       const data= await response.json();
-      console.log(data);
-      this.handlefortuna('Activo');
-      if(data.msg){
-        Alert.alert(data.msg);
+      console.log('data',data);
+      console.log('Data recibida post alamar:',data.id_alarm.id_alarm);
+      if(data.id_alarm?.id_alarm){
+        setAlarma(data.id_alarm.id_alarm);
+        console.log('post Alarma: ',Alarma)
+        EstadoAlarma();
+        setAlarmaActiva('true');
       }
-      
+      if(data.msg){
+        if(data.msg == 'Alarma creada'){
+          Alert.alert('Hemos recibido tu alarma.');
+        }else{
+          Alert.alert(data.msg);
+        }
+      }
     }catch (error){
       console.log(error);
     }
   }
 
 
-  CrearAlarma = async () =>{
+  const CrearAlarma = async () =>{
     console.log('=============================');
     console.log('Creando alarma...');
     console.log('=============================');
@@ -71,40 +103,81 @@ class Inicio extends Component{
         },
         { text: "Confirmar", onPress: () => {
             console.log("OK Pressed");
-            this.postAlarma();
+            postAlarma();
           }
         }
       ],
       { cancelable: false }
     );
   }
-    
-  render(){
-    
-    
-    //aqui guardar el estado
-    const {Estado,Mensaje}= this.state;
-  
+  const Salir = async  () => {
+    try {
+        await AsyncStorage.removeItem('token');
+        console.log('Token eliminado!');
+        navigation.goBack()
+        return true;
+    }
+    catch(exception) {
+        return false;
+    }
+}
+    const BadgeColor = () => {
+      if(Estado=='activa'){
+        return (<Badge value=" "status="primary" />);
+      }
+      if(Estado=='confirmada'){
+        return (<Badge value=" " status="success" />);
+      }
+      if(Estado=='terminada'){
+        return (<Badge value=" " status="warning" />);
+      }
+      if(Estado=='Inactivo'){
+        return (<Badge value=" " status="error" />);
+      }
+
+    }
+    const TextoAmigable = () => {
+      if(Estado == 'activa'){
+        return (<Text>Alarma enviada, esperando respuesta ...</Text>);
+      }
+      if(Estado == 'confirmada'){
+        return (<Text>Hemos recibido tu Alarma</Text>);
+      }
+      if(Estado == 'terminada'){
+        return (<Text>Ya atendimos tu Alarma</Text>);
+      }
+      if(Estado == 'Inactivo'){
+        return (<Text>No tienes Alarmas Activas</Text>);
+      }
+    }
     //despliegues
     const buttonClickedHandler = () => {
         console.log('===============================================================')
         console.log('Boton:ALerta Activada!!! desde');
         //traigo el token de redux y se lo entrego a el boton
-        this.CrearAlarma();
-        
+        CrearAlarma();
+
     }
     return(
       <View style={styles.screen}>
+        <Button 
+              title="Salir"
+              onPress={Salir}
+          />
+        <Card>
         <TouchableOpacity
           onPress={buttonClickedHandler}
           //onPress={crearAlarma()}
           style={styles.roundButton}>
           <Text style={styles.texto}>Alarma</Text>
         </TouchableOpacity>
-        <Text style={styles.textoMensaje}>{Mensaje}</Text>
+        </Card>
+        <Text style={styles.textoMensaje}></Text>
+        { 
+        //AlarmaActiva == 'true' ? (<Text  style={styles.textoMensaje}> {BadgeColor()} {TextoAmigable()} </Text>) : ( <Text style={styles.textoMensaje} > {BadgeColor(Estado)} {TextoAmigable(Estado)}</Text>)
+        }
       </View>
     );
-  }
 }
 /// Just some styles
 const styles = StyleSheet.create({
@@ -115,13 +188,15 @@ const styles = StyleSheet.create({
   },
   texto:{
     color:'white',
-    fontSize:40
+    fontSize:40,
+    fontStyle:"italic"
   },
   textoMensaje:{
-    paddingTop:10,
+    paddingTop:40,
     color:'black',
     fontSize:20,
-    textAlign:'center'
+    textAlign:'center',
+    fontStyle:"italic"
   },
   roundButton: {
     color:'red',
@@ -134,6 +209,9 @@ const styles = StyleSheet.create({
     borderRadius: 300,
     backgroundColor:'red',
   },
+  comentario:{
+    backgroundColor:'#34c240'
+  }
 });
 
 //redux

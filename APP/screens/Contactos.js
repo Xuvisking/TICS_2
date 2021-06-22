@@ -1,96 +1,97 @@
 import React, { useState, useEffect, Component } from 'react';
 import { render } from 'react-dom';
 import {View, Text, StyleSheet,Image, TouchableOpacity} from 'react-native';
-import { Card, ListItem, Button, Icon } from 'react-native-elements';
+import { Card, ListItem, Button, Icon,Input} from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { set } from 'react-native-reanimated';
 
-class Contactos extends Component{
-  
+function Contactos({navigation}){ 
   //para obetener los contactos necesito el id el vecino.
-   Contactos= async () =>{
+  const [datos, setDatos] = useState({});
+  const [load,setLoad]= useState('False');
+
+  useEffect(() => {
+    setInterval(() => {
+      getContactos();
+      }, 1000);
+  }, []);
+
+   getContactos= async () =>{
     try{
       //Tomar el valor de id desde asycstorage
-      const usuario ='V01';
-        
-
+      const token = await AsyncStorage.getItem('token');
+      const Id = await AsyncStorage.getItem('usuario');
+      
       //consultar Datos del vecino
-      const response= await fetch(`http://52.188.69.248:4000/api/vecino/getInfoVecino/${usuario}`,{
-        method:'POST',
+      const response= await fetch(`http://52.188.69.248:4000/api/vecino/getUnVecino`,{
+        method:'get',
         //headers para contenidos de lo mensje
         headers:{
-          'Accept':'application/json',
+          'x-token':token,
+          'Accept': 'application/json, text/plain, *',
           'Content-type':'application/json'
-        },
-        //vacio ya que se le pasa el id por la url
-        body:[]
+        }
       });
 
       const infoContacto= await response.json();
-      console.log('respues servidor',infoContacto);
-      
+      setDatos(infoContacto.data[0]);
+      setLoad('true');
     }catch (error){
       console.log(error);
     }
-    //enviar todos los datos por pos ya que es un login 
-  }
-
-  render(){
-    const users = [
+  } 
+     list = [
       {
-         name: 'brynn',
-         item: ''
-      }
-     ]
-    const list = [
-      {
-        title: 'V01',
+        title: 'Direccion',
+        subtitle: datos.direccion,
         icon: 'home'
       },
       {
-        title: 'Homer Simpson',
-        icon: 'person-outline'
-      },
-      {
-        title: '+56912345678',
-        icon: 'call'
-      },
-      {
-        title: 'Moe Szyslak',
+        title: 'Contacto Emergencia 1',
+        subtitle: datos.name_contact,
         icon: 'person-add'
       },
       {
-        title: '+56987654321',
+        title: 'Telefono Emergencia 1',
+        subtitle: datos.numb_contact,
         icon: 'call'
       },
       {
-        title: 'Marge Simpson',
+        title: 'Contacto Emergencia 2',
+        subtitle: datos.name_contact2,
         icon: 'person-add'
       },
       {
-        title: '+56987654321',
+        title: 'Telefono Emergencia 2',
+        subtitle: datos.numb_contact2,
         icon: 'call'
       } 
-    ]
+    ];
+
     return(
       <View style={styles.screen}>
         <Card >
-          <Card.Title >Informacion <Button s title="Actualizar" />
+          <Card.Title >Informacion
           </Card.Title>
+          {}
           <Card.Divider/>
-          {
-            list.map((item, i) => (
+          { load == 'true' ? (
+             list.map((item, i) => (
               <ListItem key={i} bottomDivider>
                 <Icon name={item.icon} />
                 <ListItem.Content>
                   <ListItem.Title>{item.title}</ListItem.Title>
+                  <ListItem.Subtitle>{item.subtitle}</ListItem.Subtitle>
                 </ListItem.Content>
               </ListItem>
               ))
+          ) : (<Text></Text>)
           }
+          <Button title="Actualizar" onPress={() => navigation.navigate('ActualizarContactos',datos)} />
         </Card>
       </View>
-      
     );
-  }
+  
 }
 /// Just some styles
 const styles = StyleSheet.create({
