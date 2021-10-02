@@ -1,5 +1,0 @@
-- en la bd no hay nada de numero de casa
-- arreglar direccion y devolver el input numero de casa
-
-- cree otra tabla usuario_vecino con toda la info de los vecinos, luego al querer ingresar datos en las demas tablas hacemos las consultas pertienentes con el id e ingresamos.
-- borrar tabla usuarios?
