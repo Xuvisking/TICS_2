@@ -18,8 +18,8 @@ CREATE TABLE vecino(
 );
 
 CREATE TABLE vecino_contacto(
-    vecino_idvecino int,
-    contacto_numero numero NUMERIC(9)
+    vecino_idvecino SERIAL,
+    contacto_telefono NUMERIC(9)
 );
 
 CREATE TABLE contacto(
@@ -43,9 +43,9 @@ alter table vecino_contacto
 
 CREATE TABLE alarma(
     idalarma SERIAL PRIMARY KEY,
-    vecino_idvecino VARCHAR,
-    guardia_idguardia INT,
-    fecha DATETIME,
+    vecino_idvecino SERIAL,
+    guardia_idguardia SERIAL,
+    fecha TIMESTAMP,
     estado VARCHAR,
     comentario TEXT
 );
@@ -66,9 +66,9 @@ alter table alarma
 
 CREATE TABLE escolta(
     idescolta SERIAL PRIMARY KEY,
-    vecino_idvecino VARCHAR,
-    guardia_idguardia INT,
-    fecha DATETIME,
+    vecino_idvecino SERIAL,
+    guardia_idguardia SERIAL,
+    fecha TIMESTAMP,
     estado VARCHAR,
     direccion VARCHAR,
     modalidad VARCHAR
