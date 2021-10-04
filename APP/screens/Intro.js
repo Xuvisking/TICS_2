@@ -23,9 +23,9 @@ class Intro extends React.Component {
                 <Block>
                   <Block middle>
                     <Text
-                      style={{
-                        fontFamily: 'montserrat-regular', bottom: 50, position: 'absolute', letterSpacing: 2, paddingHorizontal: 20, textAlign: 'center'
-                      }}
+                      // style={{
+                      //   fontFamily: 'montserrat-regular', bottom: 50, position: 'absolute', letterSpacing: 2, paddingHorizontal: 20, textAlign: 'center'
+                      // }}
                       color="white"
                       size={44}
                     >
@@ -38,7 +38,7 @@ class Intro extends React.Component {
                   <Text
                     color="white"
                     size={15}
-                    style={{ fontFamily: 'montserrat-regular' }}
+                    //style={{ fontFamily: 'montserrat-regular' }}
                   >
                     La aplicación esta hecha para una solución 
                     de rapida atención en caso de emergencia, robos,
@@ -60,7 +60,7 @@ class Intro extends React.Component {
                     onPress={() => this.props.navigation.navigate('Login')}
                   >
                     <Text
-                      style={{ fontFamily: 'montserrat-bold', fontSize: 14 }}
+                      //style={{ fontFamily: 'montserrat-bold', fontSize: 14 }}
                       color={theme.COLORS.WHITE}
                     >
                       Ingresar

@@ -1,4 +1,4 @@
-CREATE DATABASE "SCChileDB";
+
 
 CREATE TABLE guardia(
     idguardia SERIAL PRIMARY KEY,

@@ -175,7 +175,7 @@ class Escolta extends React.Component {
                     <Block flex={0.5} middle>
                       <Text
                         style={{
-                          fontFamily: 'montserrat-regular',
+                          //fontFamily: 'montserrat-regular',
                           textAlign: 'center'
                         }}
                         color="#333"
@@ -191,7 +191,7 @@ class Escolta extends React.Component {
                         <Block>
                             <Text
                                 style={{
-                                    fontFamily: 'montserrat-regular',
+                                    //fontFamily: 'montserrat-regular',
                                     textAlign: 'left'
                                   }}
                                   color="#333"
@@ -207,7 +207,7 @@ class Escolta extends React.Component {
                           </Block>
                             <Text
                                 style={{
-                                    fontFamily: 'montserrat-regular',
+                                    //fontFamily: 'montserrat-regular',
                                     textAlign: 'left'
                                   }}
                                   color="#333"
@@ -233,7 +233,7 @@ class Escolta extends React.Component {
                           </Block>
                           <Text
                                 style={{
-                                    fontFamily: 'montserrat-regular',
+                                    //fontFamily: 'montserrat-regular',
                                     textAlign: 'left'
                                   }}
                                   color="#333"
@@ -261,7 +261,7 @@ class Escolta extends React.Component {
                             <Block>
                               <Text
                                     style={{
-                                        fontFamily: 'montserrat-regular',
+                                        //fontFamily: 'montserrat-regular',
                                         textAlign: 'left'
                                       }}
                                       color="#333"
@@ -294,7 +294,7 @@ class Escolta extends React.Component {
                         <Block center>
                           <Button color="primary" round style={styles.createButton}>
                             <Text
-                              style={{ fontFamily: 'montserrat-bold' }}
+                              //style={{ fontFamily: 'montserrat-bold' }}
                               size={14}
                               onPress={this.CrearEscolta}
                               color={nowTheme.COLORS.WHITE}
@@ -306,7 +306,7 @@ class Escolta extends React.Component {
                         <Block center>
                           <Button color="primary" round style={styles.createButton}>
                             <Text
-                              style={{ fontFamily: 'montserrat-bold' }}
+                              //style={{ fontFamily: 'montserrat-bold' }}
                               size={14}
                               onPress={this.Estadoescolta}
                               color={nowTheme.COLORS.WHITE}

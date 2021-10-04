@@ -10,7 +10,7 @@ router.post("/vecino/nuevo", async (req, res) => {
     const {idvecino, direccion, telefono, password} = req.body;
     const salt = bcrypt.genSaltSync();
     const passwordHash = bcrypt.hashSync(password, salt);
-    pool.query('INSERT INTO vecino (idvecino, direccion, telefono, password, estado) VALUES ($1, $2, $3, $4)', [idvecino, direccion, telefono, passwordHash, 'activo'], async (err, rows) => {
+    pool.query('INSERT INTO vecino (idvecino, direccion, telefono, password, estado) VALUES ($1, $2, $3, $4, $5)', [idvecino, direccion, telefono, passwordHash, 'activo'], async (err, rows) => {
         if (!err) {
             res.send({
                 code: 200,

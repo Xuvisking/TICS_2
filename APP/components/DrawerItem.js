@@ -130,7 +130,7 @@ class DrawerItem extends React.Component {
           <Block row center flex={0.9}>
             <Text
               style={{
-                fontFamily: "montserrat-regular",
+                //fontFamily: "montserrat-regular",
                 textTransform: "uppercase",
                 fontWeight: "300"
               }}

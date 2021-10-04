@@ -40,7 +40,7 @@ class Login extends React.Component {
       console.log(usuario,' // ',clave);
 
       //consulta login vecino
-      const response= await fetch('http://52.188.69.248:4000/api/auth/loginVecino',{
+      const response= await fetch('http://127.0.0.1:4000/loginVecino',{
         method:'POST',
         //headers para contenidos de lo mensje
         headers:{
@@ -89,7 +89,7 @@ class Login extends React.Component {
                     <Block flex={0.5} middle>
                       <Text
                         style={{
-                          fontFamily: 'montserrat-regular',
+                          //fontFamily: 'montserrat-regular',
                           textAlign: 'center'
                         }}
                         color="#333"
@@ -105,7 +105,7 @@ class Login extends React.Component {
                         <Block>
                             <Text
                                 style={{
-                                    fontFamily: 'montserrat-regular',
+                                    //fontFamily: 'montserrat-regular',
                                     textAlign: 'left'
                                   }}
                                   color="#333"
@@ -133,7 +133,7 @@ class Login extends React.Component {
                           </Block>
                           <Text
                                 style={{
-                                    fontFamily: 'montserrat-regular',
+                                    //fontFamily: 'montserrat-regular',
                                     textAlign: 'left'
                                   }}
                                   color="#333"
@@ -171,7 +171,7 @@ class Login extends React.Component {
                             //onPress={() => this.props.navigation.navigate('BotonAlerta')}
                             >
                             <Text
-                              style={{ fontFamily: 'montserrat-bold' }}
+                              //style={{ fontFamily: 'montserrat-bold' }}
                               size={14}
                               color={nowTheme.COLORS.WHITE}
                             >

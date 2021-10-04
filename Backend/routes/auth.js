@@ -5,7 +5,8 @@ const express = require("express");
 const router = express.Router();
 
 const { generarJWT } = require('../helpers/jwt');
-const { dbConecction } = require('../database/config');
+//const { dbConecction } = require('../database/config');
+const pool = require('../database/config');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
 router.post("/new", async (req, res = response) => {
@@ -88,7 +89,7 @@ router.post('/loginVecino', async (req, res = response) => {
     const { id, password } = req.body;
     try {
         // Creamos la conexion a la BDD
-        const pool = await dbConecction();
+        //const pool = await dbConecction();
         // Validamos que el ID del vecino exista
         const validarID = await pool.query('SELECT idvecino FROM vecino WHERE idvecino = ($1)', [id]);
         if (!validarID.rowCount) { // NO EXISTE
