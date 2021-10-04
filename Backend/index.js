@@ -22,11 +22,14 @@ app.use(express.static('public'));
 // Parseo del body
 app.use(express.json());
 
+
+
+
 // Rutas
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/alarma', require('./routes/alarma'));
-app.use('/api/vecino', require('./routes/vecino'));
-app.use('/api/escolta', require('./routes/escoltas'));
+
+app.use(require("./routes/auth"));
+app.use(require("./routes/alarmas"));
+app.use(require("./routes/vecino"));
 
 app.listen(4000, () => {
     console.log(`Servidor corriendo en puerto ${4000}`);
