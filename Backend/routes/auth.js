@@ -5,16 +5,14 @@ const express = require("express");
 const router = express.Router();
 
 const { generarJWT } = require('../helpers/jwt');
-//const { dbConecction } = require('../database/config');
-const pool = require('../database/config');
 const { validarJWT } = require('../middlewares/validar-jwt');
+
+const pool = require('../database/config');
 
 router.post("/new", async (req, res = response) => {
     // Extraemos datos
     const { id, tipo, name_guard, rut, password } = req.body; // Tambien debe venir el ID del administrador
     try {
-        // Creamos la conexion a la BDD
-        const pool = await dbConecction();
         // Validar que no exista el ID
         const validarid = await pool.query('SELECT idguardia FROM guardia WHERE idguardia = ($1)', [id]);
         if (!validarid.rowCount) { // No existe
@@ -48,10 +46,9 @@ router.post("/new", async (req, res = response) => {
 router.post('/',async (req, res = response) => {
     const { id, password } = req.body;
     try {
-        // Creamos la conexion a la BDD
-        const pool = await dbConecction();
         // Validar que el ID exista
-        const validarid = await pool.query('SELECT idguardia FROM guardia WHERE idguardia = ($1)', [id]);
+        const validarid =  await pool.query('SELECT idguardia FROM guardia WHERE idguardia = ($1)', [id]);
+        console.log(validarid)
         if (!validarid.rowCount) {
             return res.status(400).json({
                 ok: false,
@@ -65,7 +62,7 @@ router.post('/',async (req, res = response) => {
             if (!validarPassword) {
                 return res.status(400).json({
                     ok: false,
-                    msg: 'Usuario y/o contraseña incorrectos'
+                    msg: 'Usuario y/o contraseña incorrectos a'
                 });
             }
         }
@@ -88,8 +85,6 @@ router.post('/',async (req, res = response) => {
 router.post('/loginVecino', async (req, res = response) => {
     const { id, password } = req.body;
     try {
-        // Creamos la conexion a la BDD
-        //const pool = await dbConecction();
         // Validamos que el ID del vecino exista
         const validarID = await pool.query('SELECT idvecino FROM vecino WHERE idvecino = ($1)', [id]);
         if (!validarID.rowCount) { // NO EXISTE
@@ -99,7 +94,7 @@ router.post('/loginVecino', async (req, res = response) => {
             });
         }
         // Confirmamos las passwords
-        const passwordHash = await pool.query('SELECT password FROM vecino WHERE idvecino = ($1)', [id]);
+        const passwordHash =  await pool.query('SELECT password FROM vecino WHERE idvecino = ($1)', [id]);
         const validarPassword = bcrypt.compareSync(password, passwordHash.rows[0].password);
         if (!validarPassword) { // NO COINCIDEN LAS CREDENCIALES
             return res.status(200).json({

@@ -40,7 +40,7 @@ class Login extends React.Component {
       console.log(usuario,' // ',clave);
 
       //consulta login vecino
-      const response= await fetch('http://127.0.0.1:4000/loginVecino',{
+      const response= await fetch('http://52.191.212.135:4000/loginVecino',{
         method:'POST',
         //headers para contenidos de lo mensje
         headers:{
