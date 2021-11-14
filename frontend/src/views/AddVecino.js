@@ -25,7 +25,7 @@ function AddVecino() {
   const fetchAlarmas = () => {
     if (api) {
       console.log('consultando api en vista alarmas...');
-      let request = new Request('http://localhost:4000/api/alarma/getAlarmas', {
+      let request = new Request('http://localhost:4000/getAlarmas', {
         method: 'GET',
         mode: 'cors',
         credentials: 'omit',
@@ -37,7 +37,7 @@ function AddVecino() {
       fetch(request)
         .then(response => response.json())
         .then(dataJSON => {
-          const { data } = dataJSON;
+          const  data  = dataJSON;
           setAlarmas(data);
         })
         .catch(err => {
@@ -56,16 +56,13 @@ function AddVecino() {
   const { id } = useSelector(state => state.auth);
 
   const [datos, setDatos] = useState({
-    id_veci: '',
+    idvecino: '',
     direccion: '',
-    nombre_vecino: '',
-    telefono_vecino: '',
-    name_contact: '',
-    numb_contact: '',
-    name_contact2: '',
-    numb_contact2: '',
+    estado: '',
+    telefono: '',
+    password: '',
   });
-  const { id_veci, direccion, nombre_vecino, telefono_vecino, name_contact, numb_contact, name_contact2, numb_contact2 } = datos;
+  const { idvecino, direccion, estado, telefono, password} = datos;
 
   const handleInputChange = (event) => {
     setDatos({
@@ -76,12 +73,12 @@ function AddVecino() {
 
   const enviarDatos = async e => {
     e.preventDefault();
-    if (id_veci === '') {
+    if (idvecino === '') {
       console.log('id vacio');
       return swal("Error!", 'El campo Identificación no debe estar vacio', "error");
     }
     try {
-      const { data } = await clienteAxios.post('/api/vecino/crearVecino', datos, {
+      const { data } = await clienteAxios.post('/vecino/nuevo', datos, {
         headers: {
           'x-token': localStorage.getItem('token') || ''
         }
@@ -90,14 +87,10 @@ function AddVecino() {
         swal("Perfecto!", data.msg, "success");
       }
       setDatos({
-        id_veci: '',
-        nombre_vecino: '',
-        telefono_vecino: '',
+        idvecino: '',
         direccion: '',
-        name_contact: '',
-        numb_contact: '',
-        name_contact2: '',
-        numb_contact2: '',
+        password: '',
+        estado: '',
       });
     } catch (error) {
       swal("Error!", 'No ha sido posible ingresar al vecino, pruebe cambiando la Identificación', "error");
@@ -127,47 +120,19 @@ function AddVecino() {
                       : null
                   }
                   <Row>
-                    <Col className="pr-md-1" md="2">
+                    <Col className="pr-md-1" md="1">
                       <FormGroup>
                         <label>Identificación</label>
                         <Input
                           placeholder="ID"
                           type="text"
-                          name="id_veci"
-                          value={id_veci}
+                          name="idvecino"
+                          value={idvecino}
                           onChange={handleInputChange}
                         />
                       </FormGroup>
                     </Col>
-                  </Row>
-                  <Row>
-                    <Col className="pr-md-1" md="2">
-                      <FormGroup>
-                        <label>Nombre vecino</label>
-                        <Input
-                          placeholder="Nombre vecino"
-                          type="text"
-                          name="nombre_vecino"
-                          value={nombre_vecino}
-                          onChange={handleInputChange}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pr-md-1" md="2">
-                      <FormGroup>
-                        <label>Telefono vecino</label>
-                        <Input
-                          placeholder="Telefono vecino"
-                          type="text"
-                          name="telefono_vecino"
-                          value={telefono_vecino}
-                          onChange={handleInputChange}
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="pr-md-1" md="3">
+                    <Col className="pr-md-1" md="4">
                       <FormGroup>
                         <label>Dirección</label>
                         <Input
@@ -180,53 +145,31 @@ function AddVecino() {
                       </FormGroup>
                     </Col>
                   </Row>
+                  <Row>                    
+                  </Row>
                   <Row>
-                    <Col className="pl-md-1" md="3">
+                    <Col className="pr-md-1" md="3">
                       <FormGroup>
-                        <label>Número Telefónico del Contacto 1</label>
+                        <label>Contraseña</label>
                         <Input
-                          placeholder="Número Telefónico"
+                          placeholder="Contraseña"
                           type="text"
-                          name="numb_contact"
-                          value={numb_contact}
-                          onChange={handleInputChange}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pr-md-1" md="5">
-                      <FormGroup>
-                        <label>Nombre del Contacto</label>
-                        <Input
-                          placeholder="Nombre"
-                          type="text"
-                          name="name_contact"
-                          value={name_contact}
+                          name="password"
+                          value={password}
                           onChange={handleInputChange}
                         />
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row>
-                    <Col className="pl-md-1" md="3">
+                    <Col className="pr-md-1" md="3">
                       <FormGroup>
-                        <label>Número Telefónico del Contacto 2</label>
+                        <label>Teléfono</label>
                         <Input
-                          placeholder="Número Telefónico"
+                          placeholder="Teléfono"
                           type="text"
-                          name="numb_contact2"
-                          value={numb_contact2}
-                          onChange={handleInputChange}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pr-md-1" md="5">
-                      <FormGroup>
-                        <label>Nombre del Contacto 2</label>
-                        <Input
-                          placeholder="Nombre"
-                          type="text"
-                          name="name_contact2"
-                          value={name_contact2}
+                          name="telefono"
+                          value={telefono}
                           onChange={handleInputChange}
                         />
                       </FormGroup>
@@ -235,7 +178,7 @@ function AddVecino() {
                 </CardBody>
                 <CardFooter>
                   <Button className="btn-fill" color="primary" type="submit">
-                    Enviar
+                    Agregar
                   </Button>
                 </CardFooter>
               </Card>

@@ -124,7 +124,7 @@ class PassChange extends React.Component {
                     <Block flex={0.5} middle>
                       <Text
                         style={{
-                          fontFamily: 'montserrat-regular',
+                          //fontFamily: 'montserrat-regular',
                           textAlign: 'center'
                         }}
                         color="#333"
@@ -138,7 +138,7 @@ class PassChange extends React.Component {
                     <Block flex={0.5} middle>
                       <Text
                         style={{
-                          fontFamily: 'montserrat-regular',
+                          //fontFamily: 'montserrat-regular',
                           textAlign: 'center'
                         }}
                         color="#898989"
@@ -154,7 +154,7 @@ class PassChange extends React.Component {
                         <Block>
                             <Text
                                 style={{
-                                    fontFamily: 'montserrat-regular',
+                                    //fontFamily: 'montserrat-regular',
                                     textAlign: 'left'
                                   }}
                                   color="#333"
@@ -181,7 +181,7 @@ class PassChange extends React.Component {
                           </Block>
                           <Text
                                 style={{
-                                    fontFamily: 'montserrat-regular',
+                                    //fontFamily: 'montserrat-regular',
                                     textAlign: 'left'
                                   }}
                                   color="#333"
@@ -215,7 +215,7 @@ class PassChange extends React.Component {
                           onPress={this.IfSame}
                           >
                             <Text
-                              style={{ fontFamily: 'montserrat-bold' }}
+                              //style={{ fontFamily: 'montserrat-bold' }}
                               size={14}
                               color={nowTheme.COLORS.WHITE}
                             >

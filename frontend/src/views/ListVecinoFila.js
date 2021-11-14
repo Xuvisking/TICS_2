@@ -11,18 +11,15 @@ export const ListVecinoFila = ({ vecino, fetchVecinos, setVecinos }) => {
     //hook vecino, para actualizar datos
 
     const [datos] = useState({
-        id_veci: vecino.id_veci,
+        idvecino: vecino.idvecino,
         direccion: vecino.direccion,
-        nombre_vecino: vecino.nombre_vecino,
-        telefono_vecino: vecino.telefono_vecino,
-        name_contact: vecino.name_contact,
-        numb_contact: vecino.numb_contact,
-        name_contact2: vecino.name_contact2,
-        numb_contact2: vecino.numb_contact2,
-    });
-    const { id_veci, direccion, nombre_vecino, telefono_vecino, name_contact, numb_contact, name_contact2, numb_contact2 } = datos;
 
-    const handleInputDelete = (id_veci) => {
+        telefono: vecino.telefono,
+        estado: vecino.estado,
+    });
+    const { idvecino, direccion, telefono, estado } = datos;
+
+    const handleInputDelete = (idvecino) => {
         swal("Seguro que desea eliminar al vecino? Esta acción no puede revertirse...", {
             buttons: {
                 cancel: "Cancelar",
@@ -37,7 +34,7 @@ export const ListVecinoFila = ({ vecino, fetchVecinos, setVecinos }) => {
                     case "borrar":
                         // codigo para borrar
                         try {
-                            const { data } = await clienteAxios.delete(`/api/vecino/deleteVecino/${id_veci}`, {
+                            const { data } = await clienteAxios.delete(`/vecino/${idvecino}`, {
                                 headers: {
                                     'x-token': localStorage.getItem('token')
                                 }
@@ -58,14 +55,11 @@ export const ListVecinoFila = ({ vecino, fetchVecinos, setVecinos }) => {
 
     return (
         <tr>
-            <td>{id_veci}</td>
+            <td>{idvecino}</td>
             <td>{direccion}</td>
-            <td>{nombre_vecino}</td>
-            <td>{telefono_vecino}</td>
-            <td>{name_contact}</td>
-            <td>{numb_contact}</td>
-            <td>{name_contact2}</td>
-            <td>{numb_contact2}</td>
+
+            <td>{telefono}</td>
+            <td>{estado}</td>
             <td className="text-center">
                 <ActualizarVeci
                     info={datos}
@@ -78,7 +72,7 @@ export const ListVecinoFila = ({ vecino, fetchVecinos, setVecinos }) => {
                     className="btn-fill"
                     color="danger"
                     type="submit"
-                    onClick={() => handleInputDelete(id_veci)}
+                    onClick={() => handleInputDelete(idvecino)}
                 >
                     Eliminar
                 </Button>

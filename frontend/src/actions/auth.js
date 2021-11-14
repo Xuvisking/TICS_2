@@ -4,9 +4,10 @@ import { types } from '../types/types';
 
 export const startLogin = (id, password) => {
     return async (dispatch) => {
-        const resp = await fetchSinToken('api/auth', { id, password }, 'POST');
+        const resp = await fetchSinToken('', { id, password }, 'POST');
         const body = await resp.json();
         if (body.ok) {
+            localStorage.setItem('id', body.id);
             localStorage.setItem('token', body.token);
             localStorage.setItem('token-comienzo', new Date().getTime());
             dispatch(login({

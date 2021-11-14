@@ -140,9 +140,9 @@ class Header extends React.Component {
               style={{ paddingRight: 8 }}
               color={nowTheme.COLORS.HEADER}
             />
-            <Text style={{ fontFamily: 'montserrat-regular' }} size={16} style={styles.tabTitle}>
+            {/* <Text style={{ fontFamily: 'montserrat-regular' }} size={16} style={styles.tabTitle}>
               {optionLeft || 'Beauty'}
-            </Text>
+            </Text> */}
           </Block>
         </Button>
         <Button shadowless style={styles.tab} onPress={() => navigation.navigate('Pro')}>
@@ -154,9 +154,9 @@ class Header extends React.Component {
               style={{ paddingRight: 8 }}
               color={nowTheme.COLORS.HEADER}
             />
-            <Text style={{ fontFamily: 'montserrat-regular' }} size={16} style={styles.tabTitle}>
+            {/* <Text style={{ fontFamily: 'montserrat-regular' }} size={16} style={styles.tabTitle}>
               {optionRight || 'Fashion'}
-            </Text>
+            </Text> */}
           </Block>
         </Button>
       </Block>
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     width: '100%',
     fontSize: 16,
     fontWeight: 'bold',
-    fontFamily: 'montserrat-regular'
+    //fontFamily: 'montserrat-regular'
   },
   navbar: {
     paddingVertical: 0,

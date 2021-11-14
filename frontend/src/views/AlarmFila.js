@@ -6,12 +6,15 @@ import swal from 'sweetalert';
 
 import { clienteAxios } from "helpers/axios";
 import Comentario from './Comentario';
+import Comentario2 from './ComentarioEscolta';
 
-export const AlarmFila = ({ alarma, fetchAlarmas }) => {
+export const AlarmFila = ({ alarma, fetchAlarmas}) => {
 
-    const confirmarAlarma = async (id_alarm) => {
+    const confirmarAlarma = async (idalarma) => {
         try {
-            const { data } = await clienteAxios.post('/api/alarma/confirmarAlarma', { id_alarm }, {
+            const idguardia = localStorage.getItem('id')
+            console.log(idguardia)
+            const { data } = await clienteAxios.post('/confirmarAlarma', { idalarma, idguardia}, {
                 headers: {
                     'x-token': localStorage.getItem('token') || ''
                 }
@@ -28,14 +31,16 @@ export const AlarmFila = ({ alarma, fetchAlarmas }) => {
         }
     };
 
-    const terminarAlarma = async (id_alarm, comentario) => {
+    const terminarAlarma = async (idalarma, comentario) => {
         // Validar que haya comentario
+        //             
+        //              <td>{vecino_contacto.contacto_telefono}</td>
         if (comentario === '') {
             swal("Error!", 'Debe agregar un comentario', "error");
             return;
         }
         try {
-            const { data } = await clienteAxios.post('/api/alarma/terminarAlarma', { id_alarm, comentario }, {
+            const { data } = await clienteAxios.post('/terminarAlarma', { idalarma, comentario }, {
                 headers: {
                     'x-token': localStorage.getItem('token') || ''
                 }
@@ -51,17 +56,12 @@ export const AlarmFila = ({ alarma, fetchAlarmas }) => {
             console.log(error);
         }
     };
-
     return (
         <tr>
-            <td>{alarma.id_alarm}</td>
-            <td>{alarma.id_veci}</td>
-            <td><p className='text-primary text-uppercase'>{alarma.id_guard}</p></td>
-            <td>{alarma.direccion}</td>
-            <td>{alarma.name_contact}</td>
-            <td>{alarma.numb_contact}</td>
-            <td>{alarma.name_contact2}</td>
-            <td>{alarma.numb_contact2}</td>
+            <td>{alarma.idalarma}</td>
+            <td>{alarma.vecino_idvecino}</td>
+            <td><p className='text-primary text-uppercase'>{alarma.guardia_idguardia}</p></td>
+            <td>{alarma.telefono}</td>
             <td>{alarma.fecha}</td>
             <td><p className='text-primary text-uppercase'>{alarma.estado}</p></td>
             <td className="text-center">
@@ -69,9 +69,9 @@ export const AlarmFila = ({ alarma, fetchAlarmas }) => {
                     className={alarma.estado === 'btn-fill confirmada' ? 'btn-fill disabled' : ''}
                     color="success"
                     type="submit"
-                    onClick={() => confirmarAlarma(alarma.id_alarm)}
+                    onClick={() => confirmarAlarma(alarma.idalarma)}
                 >
-                    CONFIRMAR
+                    Confirmar
                 </Button>
             </td>
             <td className="text-center">
@@ -82,4 +82,5 @@ export const AlarmFila = ({ alarma, fetchAlarmas }) => {
             </td>
         </tr>
     );
+
 };

@@ -18,7 +18,7 @@ function ListVecino() {
   const fetchAlarmas = () => {
     if (api) {
       console.log('consultando api en vista alarmas...');
-      let request = new Request('http://localhost:4000/api/alarma/getAlarmas', {
+      let request = new Request('http://localhost:4000/getAlarmas', {
         method: 'GET',
         mode: 'cors',
         credentials: 'omit',
@@ -30,7 +30,7 @@ function ListVecino() {
       fetch(request)
         .then(response => response.json())
         .then(dataJSON => {
-          const { data } = dataJSON;
+          const  data  = dataJSON;
           setAlarmas(data);
         })
         .catch(err => {
@@ -38,6 +38,12 @@ function ListVecino() {
         })
     }
   };
+  useEffect(() => {
+    setInterval(() => {
+      fetchAlarmas();
+    }, 3000);
+    return () => api = false;
+  }, []);
   useEffect(() => {
     setInterval(() => {
       fetchAlarmas();
@@ -56,7 +62,7 @@ function ListVecino() {
 
   const fetchVecinos = () => {
     console.log('consultando vecinos...');
-    let request = new Request('http://localhost:4000/api/vecino/getallvecinos', {
+    let request = new Request('http://localhost:4000/vecino/all', {
       method: 'GET',
       mode: 'cors',
       credentials: 'omit',
@@ -68,7 +74,7 @@ function ListVecino() {
     fetch(request)
       .then(response => response.json())
       .then(dataJSON => {
-        const { data } = dataJSON;
+        const  data  = dataJSON.rows.rows;
         setVecinos(data);
       })
       .catch(err => {
@@ -112,13 +118,10 @@ function ListVecino() {
                   <thead className="text-primary">
                     <tr>
                       <th>ID VECINO</th>
-                      <th>Dirección</th>
-                      <th>NOMBRE VECINO</th>
+                      <th>DIRECCIÓN</th>
+
                       <th>TELEFONO VECINO</th>
-                      <th>Nombre Contacto 1</th>
-                      <th>Numero Contacto 1</th>
-                      <th>Nombre Contacto 2</th>
-                      <th>Numero Contacto 2</th>
+                      <th>ESTADO</th>
                       <th className="text-center">Acciones</th>
                     </tr>
                   </thead>
@@ -126,7 +129,7 @@ function ListVecino() {
                     {
                       vecinos.map(vecino => (
                         <ListVecinoFila
-                          key={vecino.id_veci}
+                          key={vecino.idvecino}
                           vecino={vecino}
                           fetchVecinos={fetchVecinos}
                           setVecinos={setVecinos}

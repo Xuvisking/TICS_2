@@ -8,12 +8,23 @@ import sound from '../audio/SonidoAlerta.mp3';
 function HistAlarm() {
 
   // Alarmas
-  const [alarmas, setAlarmas] = useState([]);
+  const [histAlarm, setHistAlarm] = useState([]);
   let api = true;
-  const fetchAlarmas = () => {
+  
+  const { id } = useSelector(state => state.auth);
+
+  // Consulta a la API cada 3 segundos
+  useEffect(() => {
+    setInterval(() => {
+      fetchHistAlarm();
+    }, 2000);
+    return () => api = false;
+  }, []);
+
+  const fetchHistAlarm = () => {
     if (api) {
       console.log('consultando api en vista alarmas...');
-      let request = new Request('http://localhost:4000/api/alarma/getAlarmas', {
+      let request = new Request('http://localhost:4000/getHistAlarm/', {
         method: 'GET',
         mode: 'cors',
         credentials: 'omit',
@@ -25,59 +36,21 @@ function HistAlarm() {
       fetch(request)
         .then(response => response.json())
         .then(dataJSON => {
-          const { data } = dataJSON;
-          setAlarmas(data);
+          const  data  = dataJSON.rows.rows;
+		  //console.log(dataJSON.rows.rows);
+          setHistAlarm(data);
         })
         .catch(err => {
           console.error(err);
         })
     }
   };
-  useEffect(() => {
-    setInterval(() => {
-      fetchAlarmas();
-    }, 3000);
-    return () => api = false;
-  }, []);
+  
 
-  const { id } = useSelector(state => state.auth);
-
-  const [histAlarm, setHistAlarm] = useState([]);
-
-  useEffect(() => {
-    fetchHistAlarmas();
-  }, []);
-
-  const fetchHistAlarmas = () => {
-    let request = new Request('http://localhost:4000/api/alarma/getHistAlarm', {
-      method: 'GET',
-      mode: 'cors',
-      credentials: 'omit',
-      referrerPolicy: 'no-referrer',
-      headers: {
-        'x-token': localStorage.getItem('token') || ''
-      }
-    });
-    fetch(request)
-      .then(response => response.json())
-      .then(dataJSON => {
-        const { data } = dataJSON;
-        setHistAlarm(data);
-      })
-      .catch(err => {
-        console.error(err);
-      })
-  };
-
-  if (histAlarm === undefined) return <h1 className="my-4 text-center bg-blue">CARGANDO HISTORIAL DE ALARMAS, POR FAVOR ESPERE...</h1>;
+  if (histAlarm === undefined) return <h1 className="my-4 text-center bg-blue">CARGANDO HISTORIAL DE ALARMAS Y ESCOLTAS, POR FAVOR ESPERE...</h1>;
 
   return (
-    <>
-      {
-        (alarmas === undefined || alarmas.length !== 0)
-          ? <audio src={sound} autoPlay loop></audio>
-          : null
-      }
+    <React.Fragment key={id}>
       <div className="content">
         <Row>
           <Col md="12">
@@ -85,9 +58,9 @@ function HistAlarm() {
             <Card>
               <CardBody>
                 {
-                  (alarmas.length !== 0)
+                  (histAlarm.length !== 0)
                     ? <div className="alert alert-danger text-center" role="alert">
-                      USTED CONTIENE ALARMAS NUEVAS
+                      ALARMAS TERMINADAS
                     </div>
                     : null
                 }
@@ -97,7 +70,6 @@ function HistAlarm() {
                       <th>ID ALARMA</th>
                       <th>ID VECINO</th>
                       <th>ID GUARDIA</th>
-                      <th>DIRECCIÓN</th>
                       <th>FECHA</th>
                       <th>COMENTARIO</th>
                     </tr>
@@ -106,7 +78,7 @@ function HistAlarm() {
                     {
                       histAlarm.map(alarma => (
                         <HistAlarmFila
-                          key={alarma.id_alarm}
+                          key={alarma.idalarma}
                           alarma={alarma}
                         />
                       ))
@@ -118,7 +90,7 @@ function HistAlarm() {
           </Col>
         </Row>
       </div>
-    </>
+    </React.Fragment>
   );
 }
 

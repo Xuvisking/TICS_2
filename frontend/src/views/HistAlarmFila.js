@@ -1,12 +1,12 @@
+//             <td>{alarma.direccion}</td>
 import React from 'react'
 
 export const HistAlarmFila = ({ alarma }) => {
     return (
         <tr>
-            <td>{alarma.id_alarm}</td>
-            <td>{alarma.id_veci}</td>
-            <td>{alarma.id_guard}</td>
-            <td>{alarma.direccion}</td>
+            <td>{alarma.idalarma}</td>
+            <td>{alarma.vecino_idvecino}</td>
+            <td>{alarma.guardia_idguardia}</td>
             <td>{alarma.fecha}</td>
             <td>{alarma.comentario}</td>
         </tr>

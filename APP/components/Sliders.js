@@ -75,7 +75,7 @@ NSlider.propTypes = {
 
 const styles = StyleSheet.create({
   quote: {
-    fontFamily: "montserrat-regular",
+    //fontFamily: "montserrat-regular",
     fontSize: 20,
     borderWidth: 1,
     padding: 20
