@@ -1,0 +1,19 @@
+      {
+        (alarmas === undefined || alarmas.length !== 0)
+          ? <audio src={sound} autoPlay loop></audio>
+          : null
+      }
+      <div className="content">
+        <Form onSubmit={enviarDatos}>
+          <Row>
+            <Col md="12">
+              <h4 className="title"><i className="fas fa-user"></i> ID GUARDIA: {id}</h4>
+              <Card>
+                <CardBody>
+                  {
+                    (alarmas.length !== 0)
+                      ? <div className="alert alert-danger text-center" role="alert">
+                        USTED CONTIENE ALARMAS NUEVAS
+                      </div>
+                      : null
+                  }
