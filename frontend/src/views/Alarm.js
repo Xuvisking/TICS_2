@@ -8,6 +8,7 @@ import {
 
 import { AlarmFila } from "./AlarmFila";
 import { EscoltaFila } from "./EscoltaFila";
+import sound from '../audio/SonidoAlerta.mp3';
 
 function Alarm(props) {
 
@@ -79,6 +80,11 @@ function Alarm(props) {
 
   return (
     <React.Fragment key={id}>
+            {
+        (alarmas === undefined || alarmas.length !== 0)
+          ? <audio src={sound} autoPlay loop></audio>
+          : null
+      }
       <div className="content">
         <Row>
           <Col md="12">

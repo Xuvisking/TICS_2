@@ -9,6 +9,7 @@ function HistAlarm() {
 
   // Alarmas
   const [histAlarm, setHistAlarm] = useState([]);
+  const [alarmas, setAlarmas] = useState([]);
   let api = true;
   
   const { id } = useSelector(state => state.auth);
@@ -16,11 +17,36 @@ function HistAlarm() {
   // Consulta a la API cada 3 segundos
   useEffect(() => {
     setInterval(() => {
+      fetchAlarmas();
       fetchHistAlarm();
     }, 2000);
     return () => api = false;
   }, []);
 
+  const fetchAlarmas = () => {
+    if (api) {
+      console.log('consultando api en vista alarmas...');
+      let request = new Request('http://localhost:4000/getAlarmas/', {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'omit',
+        referrerPolicy: 'no-referrer',
+        headers: {
+          'x-token': localStorage.getItem('token') || ''
+        }
+      });
+      fetch(request)
+        .then(response => response.json())
+        .then(dataJSON => {
+          const  data  = dataJSON.rows.rows;
+		  //console.log(dataJSON.rows.rows);
+          setAlarmas(data);
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    }
+  };
   const fetchHistAlarm = () => {
     if (api) {
       console.log('consultando api en vista alarmas...');
@@ -51,6 +77,11 @@ function HistAlarm() {
 
   return (
     <React.Fragment key={id}>
+            {
+        (alarmas === undefined || alarmas.length !== 0)
+          ? <audio src={sound} autoPlay loop></audio>
+          : null
+      }
       <div className="content">
         <Row>
           <Col md="12">
