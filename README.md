@@ -1,4 +1,4 @@
-Backend del proyecto de SCChile-APP
+Frontend del proyecto de SCChile-APP
 
 Ejecutar:
 
