@@ -34,7 +34,7 @@ const Comentario3 = (props) => {
             <Button
                 color="success"
                 onClick={toggle}
-                className={props.alarma.estado === 'confirmada' ? '' : 'disabled'}
+                className={props.alarma.estado === 'confirmada' || props.alarma.estado === 'activa' ? '' : 'disabled'}
             >
                 Agregar Hito
             </Button>
