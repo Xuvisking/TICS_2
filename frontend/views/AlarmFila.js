@@ -6,7 +6,7 @@ import swal from 'sweetalert';
 
 import { clienteAxios } from "helpers/axios";
 import Comentario from './Comentario';
-import Comentario2 from './ComentarioEscolta';
+import Comentario3 from './Hitos';
 
 export const AlarmFila = ({ alarma, fetchAlarmas}) => {
 
@@ -56,6 +56,32 @@ export const AlarmFila = ({ alarma, fetchAlarmas}) => {
             console.log(error);
         }
     };
+
+    const AgregarHito = async (idalarma, comentario) => {
+        // Validar que haya comentario
+        //             
+        //              <td>{vecino_contacto.contacto_telefono}</td>
+        if (comentario === '') {
+            swal("Error!", 'Debe agregar un comentario', "error");
+            return;
+        }
+        try {
+            const { data } = await clienteAxios.post('/crearHito', { idalarma, comentario }, {
+                headers: {
+                    'x-token': localStorage.getItem('token') || ''
+                }
+            });
+            if (data.ok) {
+                swal("Perfecto!", data.msg, "success");
+            }
+            else {
+                swal("Error!", data.msg, "error");
+            }
+            fetchAlarmas();
+        } catch (error) {
+            console.log(error);
+        }
+    };
     return (
         <tr>
             <td>{alarma.idalarma}</td>
@@ -78,6 +104,12 @@ export const AlarmFila = ({ alarma, fetchAlarmas}) => {
                 <Comentario
                     alarma={alarma}
                     terminarAlarma={terminarAlarma}
+                />
+            </td>
+            <td className="text-center">
+                <Comentario3
+                    alarma={alarma}
+                    AgregarHito={AgregarHito}
                 />
             </td>
         </tr>

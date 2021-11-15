@@ -3,14 +3,14 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Card, CardBody } from 'reactstrap';
 
-const Comentario = (props) => {
+const Comentario3 = (props) => {
 
     //hook vecino, para actualizar datos
     const [msg, setMsg] = useState({
-        comentario: ''
+        comentario3: ''
     });
     //clase datos para recopilar datos del vecino
-    const { comentario } = msg;
+    const { comentario3 } = msg;
 
     //actualizar datos cuando se inserta informacion en el formulario
     const handleInputChange = (event) => {
@@ -36,7 +36,7 @@ const Comentario = (props) => {
                 onClick={toggle}
                 className={props.alarma.estado === 'confirmada' ? '' : 'disabled'}
             >
-                Terminar
+                Agregar Hito
             </Button>
             <Modal isOpen={modal} toggle={toggle} className={className}>
                 <ModalHeader toggle={toggle}>Agregar comentario</ModalHeader>
@@ -46,7 +46,7 @@ const Comentario = (props) => {
                             <Form>
                                 <FormGroup>
                                     <Label for="exampleEmail1">Comentario</Label>
-                                    <Input type="textarea" name="comentario" value={comentario} onChange={handleInputChange} />
+                                    <Input type="textarea" name="comentario3" value={comentario3} onChange={handleInputChange} />
                                 </FormGroup>
                             </Form>
                         </CardBody>
@@ -54,7 +54,7 @@ const Comentario = (props) => {
 
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={() => props.terminarAlarma(props.alarma.idalarma, comentario)}>Terminar</Button>{' '}
+                    <Button color="primary" onClick={() => props.AgregarHito(props.alarma.idalarma, comentario3)}>Grabar</Button>{' '}
                     <Button color="secondary" onClick={toggle}>Cancel</Button>
                 </ModalFooter>
             </Modal>
@@ -62,4 +62,4 @@ const Comentario = (props) => {
     );
 }
 
-export default Comentario;
+export default Comentario3;
