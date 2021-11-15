@@ -3,14 +3,14 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Card, CardBody } from 'reactstrap';
 
-const Comentario = (props) => {
+const Comentario2 = (props) => {
 
     //hook vecino, para actualizar datos
     const [msg, setMsg] = useState({
-        comentario: ''
+        comentario2: ''
     });
     //clase datos para recopilar datos del vecino
-    const { comentario } = msg;
+    const { comentario2 } = msg;
 
     //actualizar datos cuando se inserta informacion en el formulario
     const handleInputChange = (event) => {
@@ -34,7 +34,7 @@ const Comentario = (props) => {
             <Button
                 color="success"
                 onClick={toggle}
-                className={props.alarma.estado === 'confirmada' ? '' : 'disabled'}
+                className={props.escoltas.estado === 'confirmada' ? '' : 'disabled'}
             >
                 Terminar
             </Button>
@@ -45,8 +45,8 @@ const Comentario = (props) => {
                         <CardBody>
                             <Form>
                                 <FormGroup>
-                                    <Label for="exampleEmail1">Comentario</Label>
-                                    <Input type="textarea" name="comentario" value={comentario} onChange={handleInputChange} />
+                                    <Label for="exampleEmail2">Comentario</Label>
+                                    <Input type="textarea" name="comentario2" value={comentario2} onChange={handleInputChange} />
                                 </FormGroup>
                             </Form>
                         </CardBody>
@@ -54,7 +54,7 @@ const Comentario = (props) => {
 
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={() => props.terminarAlarma(props.alarma.idalarma, comentario)}>Terminar</Button>{' '}
+                    <Button color="primary" onClick={() => props.terminarEscolta(props.escoltas.idescolta, comentario2)}>Terminar</Button>{' '}
                     <Button color="secondary" onClick={toggle}>Cancel</Button>
                 </ModalFooter>
             </Modal>
@@ -62,4 +62,4 @@ const Comentario = (props) => {
     );
 }
 
-export default Comentario;
+export default Comentario2;

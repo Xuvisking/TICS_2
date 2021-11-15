@@ -6,18 +6,18 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, La
 import swal from 'sweetalert';
 import { clienteAxios } from "helpers/axios";
 
-const ActualizarVeci = (props) => {
+const ActualizarGuardia = (props) => {
 
-  //hook vecino, para actualizar datos
+  //hook Guardia, para actualizar datos
   const [datos, setDatos] = useState({
-    idvecino: props.info.idvecino,
-    direccion: props.info.direccion,
-    password: props.info.password,
-    telefono: props.info.telefono,
-    estado: props.info.estado,
+    idguardia: props.info.idguardia,
+    nombre: props.info.name_guard,
+    email: props.info.email,
+    rut: props.info.rut,
+    tipo: props.info.tipo,
   });
   //clase datos para recopilar datos del vecino
-  const { idvecino, direccion, password, telefono, estado } = datos;
+  const { idguardia, nombre, email, rut, tipo} = datos;
 
   //actualizar datos cuando se inserta informacion en el formulario
   const handleInputChange = (event) => {
@@ -31,7 +31,7 @@ const ActualizarVeci = (props) => {
   const enviarDatos = async e => {
     e.preventDefault();
     try {
-      const { data } = await clienteAxios.put('/vecino/actualizar', datos, {
+      const { data } = await clienteAxios.put('/guardia/actualizar', datos, {
         headers: {
           'x-token': localStorage.getItem('token') || ''
         }
@@ -39,7 +39,7 @@ const ActualizarVeci = (props) => {
       if (data.ok) {
         swal("Perfecto!", 'Se ha modificado exitosamente', "success");
         setModal(false);
-        props.setVecinos(props.fetchVecinos())
+        props.setGuardia(props.fetchGuardia())
       }
     } catch (error) {
       swal("Error!", 'Algo ha ocurrido', "error");
@@ -63,30 +63,30 @@ const ActualizarVeci = (props) => {
     <div>
       <Button color="success" onClick={toggle}>Actualizar</Button>
       <Modal isOpen={modal} toggle={toggle} className={className}>
-        <ModalHeader toggle={toggle}>Actualizar Vecino</ModalHeader>
+        <ModalHeader toggle={toggle}>Actualizar Guardia</ModalHeader>
         <ModalBody>
           <Card>
             <CardBody>
               <Form onSubmit={enviarDatos}>
                 <FormGroup>
                   <Label for="exampleEmail1">ID</Label>
-                  <Input type="text" name="id" value={idvecino} onChange={handleInputChange} readOnly />
+                  <Input type="text" name="id" value={idguardia} onChange={handleInputChange} readOnly />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail2">Direccion</Label>
-                  <Input type="text" name="direccion" value={direccion} onChange={handleInputChange} />
+                  <Label for="exampleEmail2">Tipo</Label>
+                  <Input type="text" name="nombre" value={nombre} onChange={handleInputChange} />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail3">Nombre del Contacto</Label>
-                  <Input type="text" name="password" value={password} onChange={handleInputChange} />
+                  <Label for="exampleEmail3">Nombre del Guardia</Label>
+                  <Input type="text" name="email" value={email} onChange={handleInputChange} />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail4">Número Telefónico del Contacto</Label>
-                  <Input type="text" name="telefono" value={telefono} onChange={handleInputChange} />
+                  <Label for="exampleEmail4">RUN</Label>
+                  <Input type="text" name="rut" value={rut} onChange={handleInputChange} />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail5">Nombre del Contacto 2</Label>
-                  <Input type="text" name="estado" value={estado} onChange={handleInputChange} />
+                  <Label for="exampleEmail5">Tipo</Label>
+                  <Input type="text" name="tipo" value={tipo} onChange={handleInputChange} />
                 </FormGroup>
               </Form>
             </CardBody>
@@ -102,4 +102,4 @@ const ActualizarVeci = (props) => {
   );
 }
 
-export default ActualizarVeci;
+export default ActualizarGuardia;

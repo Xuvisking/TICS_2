@@ -26,8 +26,8 @@ function Login({ history }) {
 
   // State
   const [datos, setDatos] = useState({
-    id: 'G01',
-    password: '6543210'
+    id: '1',
+    password: 'password'
   });
   const { id, password } = datos;
 

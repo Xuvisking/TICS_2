@@ -7,10 +7,11 @@ import {
   Table,
 } from "reactstrap";
 
-import { ListVecinoFila } from "./ListVecinoFila";
+import { ListGuardiaFila } from "./ListGuardiaFila";
 import sound from '../audio/SonidoAlerta.mp3';
+import { data } from "jquery";
 
-function ListVecino() {
+function ListGuardia() {
 
   // Alarmas
   const [alarmas, setAlarmas] = useState([]);
@@ -44,25 +45,19 @@ function ListVecino() {
     }, 3000);
     return () => api = false;
   }, []);
-  useEffect(() => {
-    setInterval(() => {
-      fetchAlarmas();
-    }, 3000);
-    return () => api = false;
-  }, []);
 
   const { id } = useSelector(state => state.auth);
 
-  const [vecinos, setVecinos] = useState([]);
+  const [guardia, setGuardia] = useState([]);
 
   // Consulta a la API
   useEffect(() => {
-    fetchVecinos();
+    fetchGuardia();
   }, []);
 
-  const fetchVecinos = () => {
-    console.log('consultando vecinos...');
-    let request = new Request('http://localhost:4000/vecino/all', {
+  const fetchGuardia = () => {
+    console.log('consultando guardias...');
+    let request = new Request('http://localhost:4000/guardia/all', {
       method: 'GET',
       mode: 'cors',
       credentials: 'omit',
@@ -75,7 +70,8 @@ function ListVecino() {
       .then(response => response.json())
       .then(dataJSON => {
         const  data  = dataJSON.rows.rows;
-        setVecinos(data);
+        //console.log(dataJSON.rows.rows)
+        setGuardia(data);
       })
       .catch(err => {
         console.error(err);
@@ -91,8 +87,8 @@ function ListVecino() {
   // if (data.ok) {
   //   swal("Perfecto!", 'El vecino ha sido eliminado', "success");
   // }
-
-  if (vecinos === undefined) return <h1 className="my-4 text-center bg-blue">CARGANDO VECINOS, POR FAVOR ESPERE...</h1>;
+    //table-responsive para la linea 111
+  if (guardia === undefined) return <h1 className="my-4 text-center bg-blue">CARGANDO GUARDIAS, POR FAVOR ESPERE...</h1>;
 
   return (
     <>
@@ -114,25 +110,25 @@ function ListVecino() {
                     </div>
                     : null
                 }
-                <Table className="tablesorter table-responsive">
+                <Table className="tablesorter"> 
                   <thead className="text-primary">
                     <tr>
-                      <th>ID VECINO</th>
-                      <th>DIRECCIÓN</th>
-
-                      <th>TELEFONO VECINO</th>
-                      <th>ESTADO</th>
+                      <th>ID GUARDIA</th>
+                      <th>NOMBRE</th>
+                      <th>EMAIL</th>
+                      <th>RUN</th>
+                      <th>TIPO</th>
                       <th className="text-center">Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
                     {
-                      vecinos.map(vecino => (
-                        <ListVecinoFila
-                          key={vecino.idvecino}
-                          vecino={vecino}
-                          fetchVecinos={fetchVecinos}
-                          setVecinos={setVecinos}
+                      guardia.map(guardia => (
+                        <ListGuardiaFila
+                          key={guardia.idguardia}
+                          guardia={guardia}
+                          fetchGuardia={fetchGuardia}
+                          setGuardia={setGuardia}
                         />
                       ))
                     }
@@ -147,4 +143,4 @@ function ListVecino() {
   );
 }
 
-export default ListVecino;
+export default ListGuardia;

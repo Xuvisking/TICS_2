@@ -5,22 +5,23 @@ import {
 } from "reactstrap";
 import swal from "sweetalert";
 
-import ActualizarVeci from './ActualizarVeci';
+import ActualizarGuardia from './ActualizarGuardia';
 
-export const ListVecinoFila = ({ vecino, fetchVecinos, setVecinos }) => {
-    //hook vecino, para actualizar datos
+export const ListGuardiaFila = ({ guardia, fetchGuardia, setGuardia }) => {
+    //hook guardia, para actualizar datos
 
     const [datos] = useState({
-        idvecino: vecino.idvecino,
-        direccion: vecino.direccion,
-
-        telefono: vecino.telefono,
-        estado: vecino.estado,
+        idguardia: guardia.idguardia,
+        name_guard: guardia.nombre,
+        email: guardia.email,
+        rut: guardia.rut,
+        tipo: guardia.tipo,
+        
     });
-    const { idvecino, direccion, telefono, estado } = datos;
+    const { idguardia, name_guard, email, rut, tipo} = datos;
 
-    const handleInputDelete = (idvecino) => {
-        swal("Seguro que desea eliminar al vecino? Esta acción no puede revertirse...", {
+    const handleInputDelete = (idguardia) => {
+        swal("Seguro que desea eliminar al guardia? Esta acción no puede revertirse...", {
             buttons: {
                 cancel: "Cancelar",
                 aceptar: {
@@ -34,14 +35,14 @@ export const ListVecinoFila = ({ vecino, fetchVecinos, setVecinos }) => {
                     case "borrar":
                         // codigo para borrar
                         try {
-                            const { data } = await clienteAxios.delete(`/vecino/${idvecino}`, {
+                            const { data } = await clienteAxios.delete(`/auth/delete/${idguardia}`, {
                                 headers: {
                                     'x-token': localStorage.getItem('token')
                                 }
                             });
                             if (data.ok) {
-                                swal("Bien!", 'Vecino eliminado', "success");
-                                setVecinos(fetchVecinos());
+                                swal("Bien!", 'Guardia eliminado', "success");
+                                setGuardia(fetchGuardia());
                             }
                         } catch (error) {
                             swal("Error!", "Al parecer no tiene privilegios", "error");
@@ -55,16 +56,17 @@ export const ListVecinoFila = ({ vecino, fetchVecinos, setVecinos }) => {
 
     return (
         <tr>
-            <td>{idvecino}</td>
-            <td>{direccion}</td>
-
-            <td>{telefono}</td>
-            <td>{estado}</td>
+            <td>{idguardia}</td>
+            <td>{name_guard}</td>
+            <td>{email}</td>
+           
+            <td>{rut}</td>
+            <td>{tipo}</td>
             <td className="text-center">
-                <ActualizarVeci
+                <ActualizarGuardia
                     info={datos}
-                    fetchVecinos={fetchVecinos}
-                    setVecinos={setVecinos}
+                    fetchGuardia={fetchGuardia}
+                    setGuardia={setGuardia}
                 />
             </td>
             <td className="text-center">
@@ -72,7 +74,7 @@ export const ListVecinoFila = ({ vecino, fetchVecinos, setVecinos }) => {
                     className="btn-fill"
                     color="danger"
                     type="submit"
-                    onClick={() => handleInputDelete(idvecino)}
+                    onClick={() => handleInputDelete(idguardia)}
                 >
                     Eliminar
                 </Button>

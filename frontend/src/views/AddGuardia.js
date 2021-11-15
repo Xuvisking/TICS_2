@@ -17,7 +17,14 @@ import {
 import { clienteAxios } from "helpers/axios";
 import sound from '../audio/SonidoAlerta.mp3';
 
-function AddVecino() {
+function AddGuardia() {
+
+  const [checked, setChecked] = React.useState(false);
+ 
+  const handleChange = () => {
+    setChecked(!checked);
+  };
+  
 
   // Alarmas
   const [alarmas, setAlarmas] = useState([]);
@@ -56,13 +63,14 @@ function AddVecino() {
   const { id } = useSelector(state => state.auth);
 
   const [datos, setDatos] = useState({
-    idvecino: '',
-    direccion: '',
-    estado: '',
-    telefono: '',
+    idguardia: '',
+    email:'',
+    tipo: '',
+    nombre: '',
+    rut: '',
     password: '',
   });
-  const { idvecino, direccion, estado, telefono, password} = datos;
+  const {idguardia, email, tipo, nombre, rut, password} = datos;
 
   const handleInputChange = (event) => {
     setDatos({
@@ -70,15 +78,15 @@ function AddVecino() {
       [event.target.name]: event.target.value
     });
   };
-
+  const [text, setText] = React.useState('');
   const enviarDatos = async e => {
     e.preventDefault();
-    if (idvecino === '') {
+    if (idguardia === '') {
       console.log('id vacio');
       return swal("Error!", 'El campo Identificación no debe estar vacio', "error");
     }
     try {
-      const { data } = await clienteAxios.post('/vecino/nuevo', datos, {
+      const  data  = await clienteAxios.post('/guardia/nuevo', datos, {
         headers: {
           'x-token': localStorage.getItem('token') || ''
         }
@@ -87,14 +95,16 @@ function AddVecino() {
         swal("Perfecto!", data.msg, "success");
       }
       setDatos({
-        idvecino: '',
-        direccion: '',
+        idguardia: '',
+        email: '',
+        tipo: '',
+        nombre: '',
+        rut: '',
         password: '',
-        estado: '',
       });
     } catch (error) {
-      swal("Error!", 'No ha sido posible ingresar al vecino, pruebe cambiando la Identificación', "error");
-      console.log('No ha sido posible ingresar al vecino, pruebe cambiando la Identificación');
+      swal("Error!", 'No ha sido posible ingresar al Guardia, pruebe cambiando la Identificación', "error");
+      console.log('No ha sido posible ingresar al Guardia, pruebe cambiando la Identificación');
     }
   };
 
@@ -120,56 +130,87 @@ function AddVecino() {
                       : null
                   }
                   <Row>
-                    <Col className="pr-md-1" md="1">
+                    <Col className="pr-md-1" md="2">
                       <FormGroup>
                         <label>Identificación</label>
                         <Input
                           placeholder="ID"
                           type="text"
-                          name="idvecino"
-                          value={idvecino}
+                          name="idguardia"
+                          value={idguardia}
                           onChange={handleInputChange}
                         />
                       </FormGroup>
                     </Col>
-                    <Col className="pr-md-1" md="4">
+                    <Col
+                    
+                      class="card">
+                     <div class="card-body">
+                       <div class="form-check form-check-radio">
+                           <label for="Guardia" class="form-check-label">
+                               <input class="form-check-input" type="radio" name="tipo" id="Guardia" value= {tipo} onChange={handleInputChange} checked />
+                               Guardia
+                               <span class="form-check-sign" ></span>
+                           </label>
+                       </div>
+                       <div class="form-check form-check-radio">
+                           <label for="Administrador" class="form-check-label">
+                               <input class="form-check-input" type="radio" name="tipo" id="Administrador"  value= {tipo} onChange={handleInputChange} />
+                               Administrador
+                               <span class="form-check-sign" ></span>
+                           </label>
+                       </div>
+                     </div>
+                     </Col>
+                  </Row>
+                  <Row>
+                    <Col className="pr-md-1" md="3">
                       <FormGroup>
-                        <label>Dirección</label>
+                        <label>Nombre</label>
                         <Input
-                          placeholder="Dirección"
+                          placeholder="Nombre Guardia"
                           type="text"
-                          name="direccion"
-                          value={direccion}
+                          name="nombre"
+                          value={nombre}
+                          onChange={handleInputChange}
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pr-md-1" md="3">
+                      <FormGroup>
+                        <label>RUN</label>
+                        <Input
+                          placeholder="RUN (sin puntos ni guión)"
+                          type="text"
+                          name="rut"
+                          value={rut}
                           onChange={handleInputChange}
                         />
                       </FormGroup>
                     </Col>
                   </Row>
-                  <Row>                    
-                  </Row>
+                  
                   <Row>
                     <Col className="pr-md-1" md="3">
                       <FormGroup>
                         <label>Contraseña</label>
                         <Input
                           placeholder="Contraseña"
-                          type="text"
+                          type="password"
                           name="password"
                           value={password}
                           onChange={handleInputChange}
                         />
                       </FormGroup>
                     </Col>
-                  </Row>
-                  <Row>
-                    <Col className="pr-md-1" md="3">
+                    <Col className="pr-md-1" md="4">
                       <FormGroup>
-                        <label>Teléfono</label>
+                        <label>Email</label>
                         <Input
-                          placeholder="Teléfono"
+                          placeholder="Email@mail.com"
                           type="text"
-                          name="telefono"
-                          value={telefono}
+                          name="email"
+                          value={email}
                           onChange={handleInputChange}
                         />
                       </FormGroup>
@@ -178,7 +219,7 @@ function AddVecino() {
                 </CardBody>
                 <CardFooter>
                   <Button className="btn-fill" color="primary" type="submit">
-                    Agregar
+                    Crear
                   </Button>
                 </CardFooter>
               </Card>
@@ -190,4 +231,4 @@ function AddVecino() {
   );
 }
 
-export default AddVecino;
+export default AddGuardia;
