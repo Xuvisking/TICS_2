@@ -81,11 +81,7 @@ function Alarm(props) {
 
   return (
     <React.Fragment key={id}>
-            {
-        (alarmas === undefined || alarmas.length !== 0)
-          ? <audio src={sound} autoPlay loop></audio>
-          : null
-      }
+
       <div className="content">
         <Row>
           <Col md="12">
@@ -100,13 +96,7 @@ function Alarm(props) {
                   RECARGAR ALARMAS / 
                 </button> */
 				}
-                {
-                  (alarmas === undefined || alarmas.length === 0 )
-                    ? <div className="alert alert-info text-center" role="alert">
-                      VERIFICANDO ALARMAS
-                    </div>
-                    : null
-                }
+
                 {
                   (alarmas.length !== 0)
                     ?
