@@ -1,5 +1,5 @@
 const fetchSinToken = (endpoint, data, method = 'GET') => {
-    const url = `${'http://localhost:4000'}/${endpoint}`;
+    const url = `${'http://20.121.32.18:4000'}/${endpoint}`;
     if (method === 'GET') {
         return fetch(url);
     }
@@ -15,7 +15,7 @@ const fetchSinToken = (endpoint, data, method = 'GET') => {
 };
 
 const fetchConToken = (endpoint, data, method = 'GET') => {
-    const url = `${'http://localhost:4000'}/${endpoint}`;
+    const url = `${'http://20.121.32.18:4000'}/${endpoint}`;
     const token = localStorage.getItem('token') || '';
     if (method === 'GET') {
         return fetch(url, {
