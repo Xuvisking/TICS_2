@@ -89,7 +89,6 @@ function HistEscolta() {
                       <th>ID VECINO</th>
                       <th>ID GUARDIA</th>
                       <th>FECHA</th>
-                      <th>COMENTARIO</th>
                     </tr>
                   </thead>
                   <tbody>

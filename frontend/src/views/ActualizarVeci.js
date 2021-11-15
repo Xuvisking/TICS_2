@@ -77,16 +77,8 @@ const ActualizarVeci = (props) => {
                   <Input type="text" name="direccion" value={direccion} onChange={handleInputChange} />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail3">Nombre del Contacto</Label>
-                  <Input type="text" name="password" value={password} onChange={handleInputChange} />
-                </FormGroup>
-                <FormGroup>
                   <Label for="exampleEmail4">Número Telefónico del Contacto</Label>
                   <Input type="text" name="telefono" value={telefono} onChange={handleInputChange} />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail5">Nombre del Contacto 2</Label>
-                  <Input type="text" name="estado" value={estado} onChange={handleInputChange} />
                 </FormGroup>
               </Form>
             </CardBody>

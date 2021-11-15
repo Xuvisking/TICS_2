@@ -73,20 +73,16 @@ const ActualizarGuardia = (props) => {
                   <Input type="text" name="id" value={idguardia} onChange={handleInputChange} readOnly />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail2">Tipo</Label>
+                  <Label for="exampleEmail2">Nombre</Label>
                   <Input type="text" name="nombre" value={nombre} onChange={handleInputChange} />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail3">Nombre del Guardia</Label>
+                  <Label for="exampleEmail3">Email</Label>
                   <Input type="text" name="email" value={email} onChange={handleInputChange} />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail4">RUN</Label>
                   <Input type="text" name="rut" value={rut} onChange={handleInputChange} />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail5">Tipo</Label>
-                  <Input type="text" name="tipo" value={tipo} onChange={handleInputChange} />
                 </FormGroup>
               </Form>
             </CardBody>
