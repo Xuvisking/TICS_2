@@ -25,7 +25,7 @@ function AddVecino() {
   const fetchAlarmas = () => {
     if (api) {
       console.log('consultando api en vista alarmas...');
-      let request = new Request('http://localhost:4000/getAlarmas', {
+      let request = new Request('http://20.121.32.18:4000/getAlarmas', {
         method: 'GET',
         mode: 'cors',
         credentials: 'omit',
@@ -97,14 +97,9 @@ function AddVecino() {
       console.log('No ha sido posible ingresar al vecino, pruebe cambiando la Identificación');
     }
   };
-
+  console.log(alarmas.length);
   return (
     <>
-      {
-        (alarmas === undefined || alarmas.length !== 0)
-          ? <audio src={sound} autoPlay loop></audio>
-          : null
-      }
       <div className="content">
         <Form onSubmit={enviarDatos}>
           <Row>
@@ -112,13 +107,6 @@ function AddVecino() {
               <h4 className="title"><i className="fas fa-user"></i> ID GUARDIA: {id}</h4>
               <Card>
                 <CardBody>
-                  {
-                    (alarmas.length !== 0)
-                      ? <div className="alert alert-danger text-center" role="alert">
-                        USTED CONTIENE ALARMAS NUEVAS
-                      </div>
-                      : null
-                  }
                   <Row>
                     <Col className="pr-md-1" md="1">
                       <FormGroup>

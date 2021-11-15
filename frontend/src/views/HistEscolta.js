@@ -26,7 +26,7 @@ function HistEscolta() {
   const fetchAlarmas = () => {
     if (api) {
       console.log('consultando api en vista alarmas...');
-      let request = new Request('http://localhost:4000/getAlarmas/', {
+      let request = new Request('http://20.121.32.18:4000/getAlarmas/', {
         method: 'GET',
         mode: 'cors',
         credentials: 'omit',
@@ -50,7 +50,7 @@ function HistEscolta() {
   const fetchHistEscolta = () => {
     if (api) {
       console.log('consultando api en vista escoltas...');
-      let request = new Request('http://localhost:4000/getHistEscoltas/', {
+      let request = new Request('http://20.121.32.18:4000/getHistEscoltas/', {
         method: 'GET',
         mode: 'cors',
         credentials: 'omit',
@@ -76,24 +76,12 @@ function HistEscolta() {
 
   return (
     <React.Fragment key={id}>
-            {
-        (alarmas === undefined || alarmas.length !== 0)
-          ? <audio src={sound} autoPlay loop></audio>
-          : null
-      }
       <div className="content">
         <Row>
           <Col md="12">
             <h4 className="title"><i className="fas fa-user"></i> ID GUARDIA: {id}</h4>
             <Card>
               <CardBody>
-                {
-                  (histEscolta.length !== 0)
-                    ? <div className="alert alert-danger text-center" role="alert">
-                      ESCOLTAS TERMINADAS
-                    </div>
-                    : null
-                }
                 <Table className="tablesorter">
                   <thead className="text-primary">
                     <tr>

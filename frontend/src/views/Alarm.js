@@ -31,7 +31,7 @@ function Alarm(props) {
   const fetchAlarmas = () => {
     if (api) {
       console.log('consultando api en vista alarmas...');
-      let request = new Request('http://localhost:4000/getAlarmas/', {
+      let request = new Request('http://20.121.32.18:4000/getAlarmas/', {
         method: 'GET',
         mode: 'cors',
         credentials: 'omit',
@@ -56,7 +56,7 @@ function Alarm(props) {
   const fetchEscoltas = () => {
     if (api) {
       console.log('consultando api en vista escoltas...');
-      let request = new Request('http://localhost:4000/getEscoltas', {
+      let request = new Request('http://20.121.32.18:4000/getEscoltas', {
         method: 'GET',
         mode: 'cors',
         credentials: 'omit',

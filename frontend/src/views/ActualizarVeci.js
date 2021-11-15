@@ -31,7 +31,7 @@ const ActualizarVeci = (props) => {
   const enviarDatos = async e => {
     e.preventDefault();
     try {
-      const { data } = await clienteAxios.put('/vecino/actualizar', datos, {
+      const { data } = await clienteAxios.post('/vecino/actualizar', datos, {
         headers: {
           'x-token': localStorage.getItem('token') || ''
         }

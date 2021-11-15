@@ -31,7 +31,7 @@ const ActualizarGuardia = (props) => {
   const enviarDatos = async e => {
     e.preventDefault();
     try {
-      const { data } = await clienteAxios.put('/guardia/actualizar', datos, {
+      const { data } = await clienteAxios.post('/guardia/actualizar', datos, {
         headers: {
           'x-token': localStorage.getItem('token') || ''
         }

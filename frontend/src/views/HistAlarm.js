@@ -26,7 +26,7 @@ function HistAlarm() {
   const fetchAlarmas = () => {
     if (api) {
       console.log('consultando api en vista alarmas...');
-      let request = new Request('http://localhost:4000/getAlarmas/', {
+      let request = new Request('http://20.121.32.18:4000/getAlarmas/', {
         method: 'GET',
         mode: 'cors',
         credentials: 'omit',
@@ -50,7 +50,7 @@ function HistAlarm() {
   const fetchHistAlarm = () => {
     if (api) {
       console.log('consultando api en vista alarmas...');
-      let request = new Request('http://localhost:4000/getHistAlarm/', {
+      let request = new Request('http://20.121.32.18:4000/getHistAlarm/', {
         method: 'GET',
         mode: 'cors',
         credentials: 'omit',
@@ -77,24 +77,12 @@ function HistAlarm() {
 
   return (
     <React.Fragment key={id}>
-            {
-        (alarmas === undefined || alarmas.length !== 0)
-          ? <audio src={sound} autoPlay loop></audio>
-          : null
-      }
       <div className="content">
         <Row>
           <Col md="12">
             <h4 className="title"><i className="fas fa-user"></i> ID GUARDIA: {id}</h4>
             <Card>
               <CardBody>
-                {
-                  (histAlarm.length !== 0)
-                    ? <div className="alert alert-danger text-center" role="alert">
-                      ALARMAS TERMINADAS
-                    </div>
-                    : null
-                }
                 <Table className="tablesorter">
                   <thead className="text-primary">
                     <tr>

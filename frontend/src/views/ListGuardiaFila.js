@@ -35,7 +35,7 @@ export const ListGuardiaFila = ({ guardia, fetchGuardia, setGuardia }) => {
                     case "borrar":
                         // codigo para borrar
                         try {
-                            const { data } = await clienteAxios.delete(`/auth/delete/${idguardia}`, {
+                            const { data } = await clienteAxios.delete(`/guardia/${idguardia}`, {
                                 headers: {
                                     'x-token': localStorage.getItem('token')
                                 }
