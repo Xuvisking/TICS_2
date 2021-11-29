@@ -77,6 +77,18 @@ function HistAlarm() {
 
   return (
     <React.Fragment key={id}>
+                        {
+        (alarmas.length !== 0)
+          ? <audio src={sound} autoPlay loop></audio>
+          : null
+      }
+                            {
+                  (alarmas.length !== 0)
+                    ? <div className="alert alert-danger text-center" role="alert">
+                      USTED CONTIENE ALARMAS NUEVAS
+                    </div>
+                    : null
+                }
       <div className="content">
         <Row>
           <Col md="12">

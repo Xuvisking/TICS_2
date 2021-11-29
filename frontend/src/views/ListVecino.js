@@ -18,7 +18,7 @@ function ListVecino() {
   const fetchAlarmas = () => {
     if (api) {
       console.log('consultando api en vista alarmas...');
-      let request = new Request('http://20.121.32.18:4000/getAlarmas', {
+      let request = new Request('http://20.121.32.18:4000/getAlarmas/', {
         method: 'GET',
         mode: 'cors',
         credentials: 'omit',
@@ -30,7 +30,8 @@ function ListVecino() {
       fetch(request)
         .then(response => response.json())
         .then(dataJSON => {
-          const  data  = dataJSON;
+          const  data  = dataJSON.rows.rows;
+		  //console.log(dataJSON.rows.rows);
           setAlarmas(data);
         })
         .catch(err => {
@@ -96,7 +97,18 @@ function ListVecino() {
 
   return (
     <>
-
+                  {
+        (alarmas.length !== 0)
+          ? <audio src={sound} autoPlay loop></audio>
+          : null
+      }
+                            {
+                  (alarmas.length !== 0)
+                    ? <div className="alert alert-danger text-center" role="alert">
+                      USTED CONTIENE ALARMAS NUEVAS
+                    </div>
+                    : null
+                }
       <div className="content">
         <Row>
           <Col md="12">

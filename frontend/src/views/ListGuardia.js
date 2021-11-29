@@ -15,44 +15,16 @@ function ListGuardia() {
 
   // Alarmas
   const [alarmas, setAlarmas] = useState([]);
+  const [guardia, setGuardia] = useState([]);
   let api = true;
-  const fetchAlarmas = () => {
-    if (api) {
-      console.log('consultando api en vista alarmas...');
-      let request = new Request('http://20.121.32.18:4000/getAlarmas', {
-        method: 'GET',
-        mode: 'cors',
-        credentials: 'omit',
-        referrerPolicy: 'no-referrer',
-        headers: {
-          'x-token': localStorage.getItem('token') || ''
-        }
-      });
-      fetch(request)
-        .then(response => response.json())
-        .then(dataJSON => {
-          const  data  = dataJSON;
-          setAlarmas(data);
-        })
-        .catch(err => {
-          console.error(err);
-        })
-    }
-  };
+  const { id } = useSelector(state => state.auth);
+
   useEffect(() => {
     setInterval(() => {
       fetchAlarmas();
-    }, 3000);
+      fetchGuardia();
+    }, 2000);
     return () => api = false;
-  }, []);
-
-  const { id } = useSelector(state => state.auth);
-
-  const [guardia, setGuardia] = useState([]);
-
-  // Consulta a la API
-  useEffect(() => {
-    fetchGuardia();
   }, []);
 
   const fetchGuardia = () => {
@@ -78,6 +50,37 @@ function ListGuardia() {
       })
   };
 
+  const fetchAlarmas = () => {
+    if (api) {
+      console.log('consultando api en vista alarmas...');
+      let request = new Request('http://20.121.32.18:4000/getAlarmas/', {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'omit',
+        referrerPolicy: 'no-referrer',
+        headers: {
+          'x-token': localStorage.getItem('token') || ''
+        }
+      });
+      fetch(request)
+        .then(response => response.json())
+        .then(dataJSON => {
+          const  data  = dataJSON.rows.rows;
+		  //console.log(dataJSON.rows.rows);
+          setAlarmas(data);
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    }
+  };
+
+
+
+  // Consulta a la API
+
+
+
   // console.log(id_veci);
   // const { data } = await clienteAxios.post('/api/vecino/crearVecino', {}, {
   //   headers: {
@@ -91,8 +94,19 @@ function ListGuardia() {
   if (guardia === undefined) return <h1 className="my-4 text-center bg-blue">CARGANDO GUARDIAS, POR FAVOR ESPERE...</h1>;
 
   return (
-    <>
-
+    <React.Fragment key={id}>
+                  {
+        (alarmas.length !== 0)
+          ? <audio src={sound} autoPlay loop></audio>
+          : null
+      }
+                            {
+                  (alarmas.length !== 0)
+                    ? <div className="alert alert-danger text-center" role="alert">
+                      USTED CONTIENE ALARMAS NUEVAS
+                    </div>
+                    : null
+                }
       <div className="content">
         <Row>
           <Col md="12">
@@ -129,7 +143,7 @@ function ListGuardia() {
           </Col>
         </Row>
       </div>
-    </>
+      </React.Fragment>
   );
 }
 
