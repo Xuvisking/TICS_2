@@ -7,13 +7,22 @@ import HistEscolta from "views/HistEscolta.js";
 import AddGuardia from "views/AddGuardia";
 import ListGuardia from "views/ListGuardia";
 import Reporteria from "views/Reporteria";
+import Controllogs from "views/Controllogs";
+
 
 var routes = [
   {
     path: "/Alarm",
-    name: "Alarmas y Escoltas",
+    name: "Alarmas",
     icon: "tim-icons icon-bell-55",
     component: Alarm,
+    layout: "/admin",
+  },
+  {
+    path: "/Escolta",
+    name: "Escolta",
+    icon: "tim-icons icon-delivery-fast",
+    component: Escolta,
     layout: "/admin",
   },
   {
@@ -63,6 +72,13 @@ var routes = [
     name: "Reportes",
     icon: "tim-icons icon-attach-87",
     component: Reporteria,
+    layout: "/admin",
+  },
+  {
+    path: "/Contrologs",
+    name: "Logs",
+    icon: "tim-icons icon-paper",
+    component: Controllogs,
     layout: "/admin",
   },
 ];
