@@ -125,6 +125,7 @@ function Alarm(props) {
                               <th>¿CONFIRMAR ALARMA?</th>
                               <th>¿TERMINAR ALARMA?</th>
                               <th className="text-center">HITOS</th>
+                              <th className="text-center">GPS</th>
                             </tr>
                           </thead>
                           <tbody>
