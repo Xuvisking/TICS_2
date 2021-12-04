@@ -7,6 +7,11 @@ import swal from 'sweetalert';
 import { clienteAxios } from "helpers/axios";
 import Comentario2 from './ComentarioEscolta';
 
+const sendMessage = (e) => {
+    e.preventDefault();
+    alert('hi');
+  }
+
 export const EscoltaFila = ({ escoltas, fetchEscoltas}) => {
 
     const confirmarEscolta = async (idescolta) => {
@@ -80,6 +85,16 @@ export const EscoltaFila = ({ escoltas, fetchEscoltas}) => {
                     terminarEscolta={terminarEscolta}
                 />
             </td>
+            <td className="text-center">
+                    <Button
+                        className={escoltas.estado === 'btn-fill confirmada' ? 'btn-fill disabled' : ''}
+                        color="success"
+                        type="submit"
+                        onClick={() => sendMessage}
+                    >
+                        Revisar GPS
+                    </Button>
+                </td>
         </tr>
         :<tr>
             <td>{escoltas.idescolta}</td>
@@ -104,6 +119,16 @@ export const EscoltaFila = ({ escoltas, fetchEscoltas}) => {
                     terminarEscolta={terminarEscolta}
                 />
             </td>
+            <td className="text-center">
+                    <Button
+                        className={escoltas.estado === 'btn-fill confirmada' ? 'btn-fill disabled' : ''}
+                        color="success"
+                        type="submit"
+                        onClick={() => sendMessage}
+                    >
+                        Revisar GPS
+                    </Button>
+                </td>
         </tr>
     );
 };

@@ -158,6 +158,16 @@ export const AlarmFila = ({ alarma, fetchAlarmas}) => {
                         AgregarHito={AgregarHito}
                     />
                 </td>
+                <td className="text-center">
+                    <Button
+                        className={alarma.estado === 'btn-fill confirmada' ? 'btn-fill disabled' : ''}
+                        color="success"
+                        type="submit"
+                        onClick={() => sendMessage}
+                    >
+                        Revisar GPS
+                    </Button>
+                </td>
             </tr>
     );
 

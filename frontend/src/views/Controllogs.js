@@ -50,7 +50,7 @@ function Controllogs() {
   }, []);
 
   const fetchlogs = () => {
-    let request = new Request('http://20.121.32.18:4000/logs', {
+    let request = new Request('http://20.121.32.18:4000/logs/all/', {
       method: 'GET',
       mode: 'cors',
       credentials: 'omit',
@@ -62,7 +62,7 @@ function Controllogs() {
     fetch(request)
       .then(response => response.json())
       .then(dataJSON => {
-        const { data } = dataJSON;
+        const  data  = dataJSON.rows.rows;
         setlogs(data);
       })
       .catch(err => {
