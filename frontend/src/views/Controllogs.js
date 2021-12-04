@@ -13,7 +13,7 @@ function Controllogs() {
   const fetchAlarmas = () => {
     if (api) {
       console.log('consultando api en vista alarmas...');
-      let request = new Request('http://localhost:4000/api/alarma/getAlarmas', {
+      let request = new Request('http://20.121.32.18:4000/getAlarmas/', {
         method: 'GET',
         mode: 'cors',
         credentials: 'omit',
@@ -25,7 +25,8 @@ function Controllogs() {
       fetch(request)
         .then(response => response.json())
         .then(dataJSON => {
-          const { data } = dataJSON;
+          const  data  = dataJSON.rows.rows;
+		  //console.log(dataJSON.rows.rows);
           setAlarmas(data);
         })
         .catch(err => {
@@ -49,7 +50,7 @@ function Controllogs() {
   }, []);
 
   const fetchlogs = () => {
-    let request = new Request('http://localhost:4000/logs', {
+    let request = new Request('http://20.121.32.18:4000/logs', {
       method: 'GET',
       mode: 'cors',
       credentials: 'omit',
@@ -73,8 +74,8 @@ function Controllogs() {
 
   return (
     <>
-      {
-        (alarmas === undefined || alarmas.length !== 0)
+            {
+        (alarmas.length !== 0)
           ? <audio src={sound} autoPlay loop></audio>
           : null
       }
@@ -84,7 +85,7 @@ function Controllogs() {
             <h4 className="title"><i className="fas fa-user"></i> ID GUARDIA: {id}</h4>
             <Card>
               <CardBody>
-                {
+              {
                   (alarmas.length !== 0)
                     ? <div className="alert alert-danger text-center" role="alert">
                       USTED CONTIENE ALARMAS NUEVAS
