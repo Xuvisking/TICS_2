@@ -12,7 +12,7 @@ import Controllogs from "views/Controllogs";
 var routes = [
   {
     path: "/Alarm",
-    name: "Alarmas",
+    name: "Alarmas y Escoltas",
     icon: "tim-icons icon-bell-55",
     component: Alarm,
     layout: "/admin",
