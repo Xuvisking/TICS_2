@@ -85,6 +85,7 @@ export const EscoltaFila = ({ escoltas, fetchEscoltas}) => {
                     terminarEscolta={terminarEscolta}
                 />
             </td>
+            <td>{escoltas.detalle}</td>
             <td className="text-center">
                     <Button
                         className={escoltas.estado === 'btn-fill confirmada' ? 'btn-fill disabled' : ''}

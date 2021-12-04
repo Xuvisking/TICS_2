@@ -179,6 +179,7 @@ function Alarm(props) {
                               <th>ESTADO</th>
                               <th>¿CONFIRMAR ESCOLTA?</th>
                               <th>¿TERMINAR ESCOLTA?</th>
+                              <th>Detalle</th>
                               <th className="text-center">GPS</th>
                             </tr>
                           </thead>

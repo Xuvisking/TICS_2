@@ -4,11 +4,13 @@ import { Card, CardBody, Row, Col, Table } from "reactstrap";
 
 import { ControllogsFila } from "./ControllogsFila";
 import sound from '../audio/SonidoAlerta.mp3';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 function Controllogs() {
 
   // Alarmas
   const [alarmas, setAlarmas] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   let api = true;
   const fetchAlarmas = () => {
     if (api) {
@@ -79,20 +81,35 @@ function Controllogs() {
           ? <audio src={sound} autoPlay loop></audio>
           : null
       }
-      <div className="content">
-        <Row>
-          <Col md="12">
-            <h4 className="title"><i className="fas fa-user"></i> ID GUARDIA: {id}</h4>
-            <Card>
-              <CardBody>
-              {
+                    {
                   (alarmas.length !== 0)
                     ? <div className="alert alert-danger text-center" role="alert">
                       USTED CONTIENE ALARMAS NUEVAS
                     </div>
                     : null
                 }
-                <Table className="tablesorter">
+      <div className="content">
+        <Row>
+          <Col md="12">
+            <h4 className="title"><i className="fas fa-user"></i> ID GUARDIA: {id}</h4>
+            <Card>
+              <CardBody>
+              <div align="center">
+              <ReactHTMLTableToExcel
+                id ="idexcel"
+                className ="btn btn-success animation-on-hover"
+                table= "histlogst"
+                filename ="HistorialLogsExcel"
+                sheet = "página 1"
+                buttonText ="Exportar a Excel"
+                />
+              </div>
+              <input type = "text" placeholder ="Buscar por ID Guardia o Nombre" className ="form-control" style={{marginTop:50, marginBottom:20, wdith:"40%"}}
+                onChange = {(e)=> {
+                  setSearchTerm(e.target.value);
+                }} />
+
+                <Table className="tablesorter" id = "histlogst">
                   <thead className="text-primary">
                     <tr>
                       <th>ID LOGS</th>
@@ -103,7 +120,17 @@ function Controllogs() {
                   </thead>
                   <tbody>
                     {
-                      logs.map(logs => (
+                      logs.filter((val) => {
+                        if (searchTerm === "") {
+                          return val;
+                        }
+                         else if (
+                           val.nombre.toLowerCase().includes(searchTerm.toLowerCase()) || val.guardia_idguardia.toLowerCase().includes(searchTerm.toLowerCase())
+                         )
+                         {
+                           return val;
+                         }
+                         }).map(logs => (
                         <ControllogsFila
                           key={logs.idlogs}
                           logs={logs}

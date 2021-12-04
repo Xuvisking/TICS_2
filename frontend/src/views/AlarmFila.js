@@ -3,6 +3,7 @@ import {
     Button,
 } from "reactstrap";
 import swal from 'sweetalert';
+import {Helmet} from "react-helmet";
 
 import { clienteAxios } from "helpers/axios";
 import Comentario from './Comentario';
@@ -88,87 +89,88 @@ export const AlarmFila = ({ alarma, fetchAlarmas}) => {
         }
     };
     return (
-        (alarma.estado === "activa")
-            ?<tr className = 'bg-danger'>  
-                <td>{alarma.idalarma}</td>
-                <td>{alarma.vecino_idvecino}</td>
-                <td><p className='text-primary text-uppercase'>{alarma.guardia_idguardia}</p></td>
-                <td>{alarma.telefono}</td>
-                <td>{alarma.fecha}</td>
-                <td><p className='text-white text-primary text-uppercase'>{alarma.estado}</p></td>
-                <td className="text-center">
-                    <Button
-                        className={alarma.estado === 'btn-fill confirmada' ? 'btn-fill disabled' : ''}
-                        color="success"
-                        type="submit"
-                        onClick={() => confirmarAlarma(alarma.idalarma)}
-                    >
-                        Confirmar
-                    </Button>
-                </td>
-                <td className="text-center">
-                    <Comentario
-                        alarma={alarma}
-                        terminarAlarma={terminarAlarma}
-                    />
-                </td>
-                <td className="text-center">
-                    <Comentario3
-                        alarma={alarma}
-                        AgregarHito={AgregarHito}
-                    />
-                </td>
-                <td className="text-center">
-                    <Button
-                        className={alarma.estado === 'btn-fill confirmada' ? 'btn-fill disabled' : ''}
-                        color="success"
-                        type="submit"
-                        onClick={() => sendMessage}
-                    >
-                        Revisar GPS
-                    </Button>
-                </td>
-            </tr>
-            :<tr>  
-                <td>{alarma.idalarma}</td>
-                <td>{alarma.vecino_idvecino}</td>
-                <td><p className='text-primary text-uppercase'>{alarma.guardia_idguardia}</p></td>
-                <td>{alarma.telefono}</td>
-                <td>{alarma.fecha}</td>
-                <td><p className='text-primary text-uppercase'>{alarma.estado}</p></td>
-                <td className="text-center">
-                    <Button
-                        className={alarma.estado === 'btn-fill confirmada' ? 'btn-fill disabled' : ''}
-                        color="success"
-                        type="submit"
-                        onClick={() => confirmarAlarma(alarma.idalarma)}
-                    >
-                        Confirmar
-                    </Button>
-                </td>
-                <td className="text-center">
-                    <Comentario
-                        alarma={alarma}
-                        terminarAlarma={terminarAlarma}
-                    />
-                </td>
-                <td className="text-center">
-                    <Comentario3
-                        alarma={alarma}
-                        AgregarHito={AgregarHito}
-                    />
-                </td>
-                <td className="text-center">
-                    <Button
-                        className={alarma.estado === 'btn-fill confirmada' ? 'btn-fill disabled' : ''}
-                        color="success"
-                        type="submit"
-                        onClick={() => sendMessage}
-                    >
-                        Revisar GPS
-                    </Button>
-                </td>
-            </tr>
+        <React.Fragment>
+            {(alarma.estado === "activa")
+                ?<tr className = 'bg-danger'>  
+                    <td>{alarma.idalarma}</td>
+                    <td>{alarma.vecino_idvecino}</td>
+                    <td><p className='text-primary text-uppercase'>{alarma.guardia_idguardia}</p></td>
+                    <td>{alarma.telefono}</td>
+                    <td>{alarma.fecha}</td>
+                    <td><p className='text-white text-primary text-uppercase'>{alarma.estado}</p></td>
+                    <td className="text-center">
+                        <Button
+                            className={alarma.estado === 'btn-fill confirmada' ? 'btn-fill disabled' : ''}
+                            color="success"
+                            type="submit"
+                            onClick={() => confirmarAlarma(alarma.idalarma)}
+                        >
+                            Confirmar
+                        </Button>
+                    </td>
+                    <td className="text-center">
+                        <Comentario
+                            alarma={alarma}
+                            terminarAlarma={terminarAlarma}
+                        />
+                    </td>
+                    <td className="text-center">
+                        <Comentario3
+                            alarma={alarma}
+                            AgregarHito={AgregarHito}
+                        />
+                    </td>
+                    <td className="text-center">
+                        <Button
+                            className={alarma.estado === 'btn-fill confirmada' ? 'btn-fill disabled' : ''}
+                            color="success"
+                            type="submit"
+                            onClick={() => sendMessage}
+                        >
+                            Revisar GPS
+                        </Button>
+                    </td>
+                </tr>
+                :<tr>  
+                    <td>{alarma.idalarma}</td>
+                    <td>{alarma.vecino_idvecino}</td>
+                    <td><p className='text-primary text-uppercase'>{alarma.guardia_idguardia}</p></td>
+                    <td>{alarma.telefono}</td>
+                    <td>{alarma.fecha}</td>
+                    <td><p className='text-primary text-uppercase'>{alarma.estado}</p></td>
+                    <td className="text-center">
+                        <Button
+                            className={alarma.estado === 'btn-fill confirmada' ? 'btn-fill disabled' : ''}
+                            color="success"
+                            type="submit"
+                            onClick={() => confirmarAlarma(alarma.idalarma)}
+                        >
+                            Confirmar
+                        </Button>
+                    </td>
+                    <td className="text-center">
+                        <Comentario
+                            alarma={alarma}
+                            terminarAlarma={terminarAlarma}
+                        />
+                    </td>
+                    <td className="text-center">
+                        <Comentario3
+                            alarma={alarma}
+                            AgregarHito={AgregarHito}
+                        />
+                    </td>
+                    <td className="text-center">
+                        <Button
+                            className={alarma.estado === 'btn-fill confirmada' ? 'btn-fill disabled' : ''}
+                            color="success"
+                            type="submit"
+                            onClick={() => sendMessage}
+                        >
+                            Revisar GPS
+                        </Button>
+                    </td>
+                </tr>}
+            </React.Fragment>
     );
-
 };

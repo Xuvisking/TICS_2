@@ -5,7 +5,6 @@ import HistAlarm from "views/HistAlarm.js";
 import HistEscolta from "views/HistEscolta.js";
 import AddGuardia from "views/AddGuardia";
 import ListGuardia from "views/ListGuardia";
-import Reporteria from "views/Reporteria";
 import Controllogs from "views/Controllogs";
 
 
@@ -57,13 +56,6 @@ var routes = [
     name: "Lista Guardias",
     icon: "tim-icons icon-align-left-2",
     component: ListGuardia,
-    layout: "/admin",
-  },
-  {
-    path: "/Reporteria",
-    name: "Reportes",
-    icon: "tim-icons icon-attach-87",
-    component: Reporteria,
     layout: "/admin",
   },
   {

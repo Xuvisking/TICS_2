@@ -4,12 +4,14 @@ import { Card, CardBody, Row, Col, Table } from "reactstrap";
 
 import { HistEscoltaFila } from "./HistEscoltaFila";
 import sound from '../audio/SonidoAlerta.mp3';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 function HistEscolta() {
 
   // Alarmas y escoltas
   const [histEscolta, setHistEscolta] = useState([]);
   const [alarmas, setAlarmas] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   let api = true;
   
   const { id } = useSelector(state => state.auth);
@@ -94,7 +96,21 @@ function HistEscolta() {
             <h4 className="title"><i className="fas fa-user"></i> ID GUARDIA: {id}</h4>
             <Card>
               <CardBody>
-                <Table className="tablesorter">
+              <div align="center">
+              <ReactHTMLTableToExcel
+                id ="idexcel"
+                className ="btn btn-success"
+                table= "histescoltast"
+                filename ="HistorialEscoltasExcel"
+                sheet = "página 1"
+                buttonText ="Exportar a Excel"
+                />
+              </div>
+              <input type = "text" placeholder ="Buscar por ID Guardia o ID Vecino" className ="form-control" style={{marginTop:50, marginBottom:20, wdith:"40%"}}
+                onChange = {(e)=> {
+                  setSearchTerm(e.target.value);
+                }}/>
+                <Table className="tablesorter" id ="histescoltast">
                   <thead className="text-primary">
                     <tr>
                       <th>ID ESCOLTA</th>
@@ -105,7 +121,17 @@ function HistEscolta() {
                   </thead>
                   <tbody>
                     {
-                      histEscolta.map(escoltas => (
+                      histEscolta.filter((val) => {
+                        if (searchTerm === "") {
+                          return val;
+                        }
+                         else if (
+                           val.vecino_idvecino.toLowerCase().includes(searchTerm.toLowerCase()) || val.guardia_idguardia.toLowerCase().includes(searchTerm.toLowerCase())
+                         )
+                         {
+                           return val;
+                         }
+                         }).map(escoltas => (
                         <HistEscoltaFila
                           key={escoltas.idescolta}
                           escoltas={escoltas}

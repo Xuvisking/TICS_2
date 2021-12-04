@@ -66,9 +66,8 @@ function Reporteria() {
   const [datos, setDatos] = useState({
         eleccion1: '',
         eleccion2: '',
-        eleccion3: '',
   });
-  const {eleccion1, eleccion2, eleccion3} = datos;
+  const {eleccion1, eleccion2} = datos;
 
   const handleInputChange = (event) => {
     setDatos({
@@ -95,7 +94,6 @@ function Reporteria() {
       setDatos({
         eleccion1: '',
         eleccion2: '',
-        eleccion3: '',
       });
     } catch (error) {
       swal("Error!", 'No ha sido posible ingresar al Guardia, pruebe cambiando la Identificación', "error");
@@ -133,7 +131,6 @@ function Reporteria() {
                 <Col>
                 <button class="btn btn-info animation-on-hover" type={eleccion1}>Alarmas</button>
                 <button class="btn btn-success animation-on-hover" type={eleccion2}>Escoltas</button>
-                <button type="button" class="btn btn-primary" type={eleccion3}>Logs</button>
                 </Col>
                 </Row>
               </CardBody>
